@@ -28,7 +28,7 @@ class HomeController extends Controller
         $permissions = service()->permission->getLoginAdminPermission();
         $topMenus = $permissions->where('pid', 0)->toArray();
         $permissionsGroupByPid = $permissions->groupBy('pid')->toArray();
-
+        // dd($permissions, $topMenus, $permissionsGroupByPid);
         return view('admin.home.home', compact('topMenus', 'permissionsGroupByPid'));
     }
 }

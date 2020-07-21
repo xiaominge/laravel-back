@@ -25,11 +25,11 @@ class ServiceHandle
      */
     public static function getInstance()
     {
-        if (!self::$instance) {
-            self::$instance = new self();
+        if (!static::$instance) {
+            static::$instance = new static();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
 
     /**
@@ -37,8 +37,8 @@ class ServiceHandle
      */
     public static function registerAll()
     {
-        foreach (self::$registerList as $name => $class) {
-            self::$pockets[$name] = app($class);
+        foreach (static::$registerList as $name => $class) {
+            static::$pockets[$name] = app($class);
         }
     }
 
@@ -49,7 +49,7 @@ class ServiceHandle
      */
     public static function register($name)
     {
-        self::$pockets[$name] = app(self::$registerList[$name]);
+        static::$pockets[$name] = app(static::$registerList[$name]);
     }
 
     /**
@@ -60,12 +60,12 @@ class ServiceHandle
      */
     public function __get($name)
     {
-        if (isset(self::$registerList[$name]) && !isset(self::$pockets[$name])) {
-            self::register($name);
-        } elseif (!isset(self::$pockets[$name])) {
+        if (isset(static::$registerList[$name]) && !isset(static::$pockets[$name])) {
+            static::register($name);
+        } elseif (!isset(static::$pockets[$name])) {
             throw new BusinessException($name . ' Unregistered please add to registerList');
         }
 
-        return self::$pockets[$name];
+        return static::$pockets[$name];
     }
 }

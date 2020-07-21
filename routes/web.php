@@ -35,7 +35,6 @@ Route::group(
         // 后台主页面
         Route::get('/', 'HomeController@index')->name('home');
         // 用户角色
-        Route::get('api/roles', 'RoleController@data')->name('roles.data');
         Route::get('roles', 'RoleController@index')->name('roles.index');
         Route::get('roles/create', 'RoleController@create')->name('roles.create');
         Route::post('roles', 'RoleController@store')->name('roles.store');
@@ -44,7 +43,6 @@ Route::group(
         Route::delete('roles/{id}', 'RoleController@destroy')->name('roles.destroy');
 
         // 权限管理
-        Route::get('api/permissions', 'PermissionController@data')->name('permissions.data');
         Route::get('permissions', 'PermissionController@index')->name('permissions.index');
         Route::get('permissions/create', 'PermissionController@create')->name('permissions.create');
         Route::get('permissions/{id}/edit', 'PermissionController@edit')->name('permissions.edit');
@@ -53,7 +51,6 @@ Route::group(
         Route::post('permissions', 'PermissionController@store')->name('permissions.store');
 
         // 管理员管理
-        Route::get('api/admins', 'AdminController@data')->name('admins.data');
         Route::get('admins', 'AdminController@index')->name('admins.index');
         Route::get('admins/create', 'AdminController@create')->name('admins.create');
         Route::delete('admins/{id}', 'AdminController@destroy')->name('admins.destroy');

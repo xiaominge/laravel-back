@@ -16,6 +16,7 @@ if (!function_exists('repository')) {
 if (!function_exists('service')) {
     function service()
     {
+        // dd(ServiceHandle::getInstance() === ServiceHandle::getInstance());
         return ServiceHandle::getInstance();
     }
 }

@@ -21,7 +21,7 @@ class Permission extends Model
     {
         return $this->belongsToMany(Role::class, 'role_permission', 'permission_id', 'role_id')
             ->where('role_permission.deleted_at', 0)
-            ->where('role.deleted_at', 0);
+            ->where('roles.deleted_at', 0);
     }
 
 }

@@ -10,19 +10,8 @@ class Admin extends Authenticatable
     use Notifiable;
 
     protected $table = 'admins';
+
     public $timestamps = false;
-
-    const IS_DEL_FALSE = 0;
-    const IS_DEL_TRUE = 1;
-
-    public $fillable = [
-        'name',
-        'password',
-        'email',
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -34,6 +23,15 @@ class Admin extends Authenticatable
         'remember_token',
     ];
 
+    public $fillable = [
+        'name',
+        'password',
+        'email',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
     /**
      * 获取用户的角色
      *
@@ -42,7 +40,7 @@ class Admin extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'admin_role', 'admin_id', 'role_id')
-            ->where('role.deleted_at', 0)
+            ->where('roles.deleted_at', 0)
             ->where('admin_role.deleted_at', 0);
     }
 }
