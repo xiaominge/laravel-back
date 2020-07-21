@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Constant;
+
+class BusinessCode
+{
+    const HTTP_OK = 2000000;
+    const HTTP_CREATED = 2010000;
+    const HTTP_ACCEPTED = 2020000;
+    const HTTP_NO_CONTENT = 2040000;
+    const HTTP_BAD_REQUEST = 4000000;
+    const HTTP_UNAUTHORIZED = 4010000;
+    const HTTP_PAYMENT_REQUIRED = 4020000;
+    const HTTP_FORBIDDEN = 4030000;
+    const HTTP_NOT_FOUND = 4040000;
+    const HTTP_NOT_ACCEPTABLE = 4060000;
+    const HTTP_GONE = 4100000;
+    const HTTP_UNPROCESSABLE_ENTITY = 4220000;
+    const HTTP_INTERNAL_SERVER_ERROR = 5000000;
+}

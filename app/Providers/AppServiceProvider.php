@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use App\Foundation\Context\ContextHandler;
+use App\Foundation\Response\BusinessHandler;
+use App\Foundation\Response\UserBusinessHandler;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -13,7 +17,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('context', function () {
+            return ContextHandler::getInstance();
+        });
+        $this->app->singleton('businessHandler', function () {
+            return new BusinessHandler();
+        });
+        $this->app->singleton('userBusinessHandler', function () {
+            return new UserBusinessHandler();
+        });
     }
 
     /**
