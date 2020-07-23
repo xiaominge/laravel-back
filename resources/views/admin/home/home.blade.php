@@ -5,7 +5,11 @@
     <script type="text/javascript" src="{{ asset('X-admin/js/xadmin.js') }}"></script>
     <script>
         // 是否开启刷新记忆tab功能
-        // var is_remember = false;
+        var is_remember = false;
+        // 解决登录状态失效，iframe 页面中登录的框架嵌套问题
+        if (window != top) {
+            top.location.href = window.location.href;
+        }
     </script>
 @endsection
 
@@ -37,7 +41,8 @@
             </div>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    <iframe src='{{ split_url(route('admin.welcome'))[1] }}' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                    <iframe src='{{ split_url(route('admin.welcome'))[1] }}' frameborder="0" scrolling="yes"
+                            class="x-iframe"></iframe>
                 </div>
             </div>
             <div id="tab_show"></div>

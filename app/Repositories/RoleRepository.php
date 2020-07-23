@@ -44,7 +44,7 @@ class RoleRepository extends Repository
 
     public function paginateGetAllRoles($num)
     {
-        return $this->model->paginate($num);
+        return $this->m()->paginate($num);
     }
 
     /**

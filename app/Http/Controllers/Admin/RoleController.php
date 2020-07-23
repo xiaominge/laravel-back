@@ -23,10 +23,7 @@ class RoleController extends Controller
     {
         $limit = request('limit', 10);
         $roles = repository()->role->paginateGetAllRoles($limit);
-        $rolesData = [];
-        $rolesData['count'] = $roles->total();
-        $rolesData['data'] = $roles->items();
-        return view('admin.roles.index')->with('rolesData', $rolesData);
+        return view('admin.roles.index')->with('rolesData', $roles);
     }
 
     public function create()

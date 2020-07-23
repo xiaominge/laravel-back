@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redis;
 use App\Repositories\RepositoryHandler;
 use App\Services\ServiceHandle;
+use App\Constant\DateFormat;
 
 if (!function_exists('repository')) {
     function repository()
@@ -121,5 +122,13 @@ if (!function_exists('d')) {
         foreach ($args as $x) {
             (new Dumper)->dump($x);
         }
+    }
+}
+
+if (!function_exists('time_format')) {
+    function time_format(int $time, string $format = DateFormat::FULL_FRIENDLY)
+    {
+        if (empty($time)) return '';
+        return date($format, $time);
     }
 }
