@@ -31,9 +31,11 @@ Route::group(
         'as' => 'admin.',
     ],
     function () {
-        Route::post('logout', 'LoginController@logout')->name('logout');
+        Route::get('logout', 'LoginController@logout')->name('logout');
         // 后台主页面
         Route::get('/', 'HomeController@index')->name('home');
+        // 欢迎页
+        Route::get('welcome', 'HomeController@welcome')->name('welcome');
         // 用户角色
         Route::get('roles', 'RoleController@index')->name('roles.index');
         Route::get('roles/create', 'RoleController@create')->name('roles.create');

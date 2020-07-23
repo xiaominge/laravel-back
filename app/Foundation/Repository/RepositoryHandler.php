@@ -47,11 +47,11 @@ class RepositoryHandler
      */
     public static function getInstance()
     {
-        if (!self::$instance) {
-            self::$instance = new self();
+        if (!static::$instance) {
+            static::$instance = new static();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
 
     /**
@@ -59,8 +59,8 @@ class RepositoryHandler
      */
     public static function registerAll()
     {
-        foreach (self::$registerList as $name => $class) {
-            self::$repositories[$name] = app($class);
+        foreach (static::$registerList as $name => $class) {
+            static::$repositories[$name] = app($class);
         }
     }
 
@@ -71,7 +71,7 @@ class RepositoryHandler
      */
     public static function register($name)
     {
-        self::$repositories[$name] = app(self::$registerList[$name]);
+        static::$repositories[$name] = app(static::$registerList[$name]);
     }
 
     /**
@@ -84,12 +84,12 @@ class RepositoryHandler
      */
     public function __get($name)
     {
-        if (!isset(self::$registerList[$name])) {
+        if (!isset(static::$registerList[$name])) {
             throw new BusinessException($name . ' Unregistered please add to registerList');
-        } elseif (!isset(self::$repositories[$name])) {
-            self::register($name);
+        } elseif (!isset(static::$repositories[$name])) {
+            static::register($name);
         }
 
-        return self::$repositories[$name];
+        return static::$repositories[$name];
     }
 }

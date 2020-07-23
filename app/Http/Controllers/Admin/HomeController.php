@@ -25,10 +25,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $permissions = service()->permission->getLoginAdminPermission();
+        $permissions = service()->permission->getLoginAdminPermission()
+            ->sortByDesc('sort')->values();
         $topMenus = $permissions->where('pid', 0)->toArray();
         $permissionsGroupByPid = $permissions->groupBy('pid')->toArray();
-        // dd($permissions, $topMenus, $permissionsGroupByPid);
+//        dd($topMenus, $permissionsGroupByPid, $permissions->toArray());
         return view('admin.home.home', compact('topMenus', 'permissionsGroupByPid'));
+    }
+
+    public function welcome()
+    {
+        $statistics = [];
+        $server = $_SERVER;
+        $statistics['admin'] = repository()->admin->m()->count();
+        $statistics['role'] = repository()->role->m()->count();
+        return view('admin.home.welcome', compact('server', 'statistics'));
     }
 }

@@ -1,6 +1,11 @@
 @extends('layouts.admin')
 @section('title', config('app.name') . " - 管理平台登录")
-
+@section('css')
+    <link rel="stylesheet" href="{{ asset("X-admin/css/login.css") }}">
+@endsection
+@section('top-js')
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+@endsection
 @section('content')
 <div class="login layui-anim layui-anim-up">
     <div class="message">{{ config('app.name') . " - 管理平台登录" }}</div>

@@ -3,7 +3,7 @@
 namespace App\Foundation\Repository;
 
 use Exception;
-use App\Foundation\Model;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Repository
