@@ -177,7 +177,7 @@ class BusinessHandler
     {
         $message = $message ? $message : 'Not Found';
 
-        return $this->succeed($data, $message, FoundationResponse::HTTP_NOT_FOUND, $businessCode, $headers);
+        return $this->failed($message, $data, FoundationResponse::HTTP_NOT_FOUND, $businessCode, $headers);
     }
 
     /**

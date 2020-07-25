@@ -36,7 +36,7 @@ class RoleRepository extends Repository
     {
         $model = $this->model->where('deleted_at', 0)->find($id);
         if (!$model) {
-            throw new BusinessException('角色不存在');
+            throw new BusinessException('角色已被删除');
         }
 
         return $model;
@@ -44,7 +44,7 @@ class RoleRepository extends Repository
 
     public function paginateGetAllRoles($num)
     {
-        return $this->m()->paginate($num);
+        return $this->m()->where('deleted_at', '0')->paginate($num);
     }
 
     /**
@@ -79,6 +79,7 @@ class RoleRepository extends Repository
      */
     public function getSuperiorPermissions($needs, $permissions)
     {
+//        dd($needs, $permissions);
         global $list;
         foreach ($needs as $value) {
             $list[] = (int)$value;

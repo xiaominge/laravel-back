@@ -63,8 +63,7 @@ LOCK TABLES `roles` WRITE;
 
 INSERT INTO `roles` (`id`, `name`, `description`, `key`, `created_at`, `updated_at`, `deleted_at`)
 VALUES
-  (1,'超级管理员','拥有所有权限','super_admin',1553752888,1554211896,0),
-  (2,'管理员','普通管理员','admin',1553752888,1554265477,0);
+  (1,'超级管理员','拥有所有权限','super_admin',1553752888,1554211896,0);
 
 UNLOCK TABLES;
 

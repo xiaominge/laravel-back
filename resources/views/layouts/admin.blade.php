@@ -8,6 +8,7 @@
     <meta name="viewport"
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset("X-admin/css/font.css") }}">
     <link rel="stylesheet" href="{{ asset("X-admin/css/xadmin.css") }}">
     <script src="{{ asset("X-admin/lib/layui/layui.js") }}" charset="utf-8"></script>
@@ -25,6 +26,16 @@
 <!-- 底部结束 -->
 
 </body>
+<script>
+    layui.use('jquery', function () {
+        var $ = layui.$;
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    });
+</script>
 @section('bottom-js')
 @show
 </html>

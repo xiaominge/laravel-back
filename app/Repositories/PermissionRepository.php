@@ -18,6 +18,16 @@ class PermissionRepository extends Repository
         return $this->m()->where('deleted_at', 0)->get();
     }
 
+    /**
+     * 获取根据 pid 生成的权限数状列表
+     * @return array
+     */
+    public function allNestPermissions()
+    {
+        $permissions = $this->all();
+        return $permissions ? $this->formatNestPermissions($permissions) : [];
+    }
+
     public function allFormatPermissions()
     {
         $permissions = $this->all()->toArray();
@@ -25,8 +35,7 @@ class PermissionRepository extends Repository
     }
 
     /**
-     * 格式化权限
-     * 无限极分类
+     * 格式化权限 增加 level 字段
      *
      * @param     $permissions
      * @param int $pid
@@ -36,7 +45,7 @@ class PermissionRepository extends Repository
      */
     private function formatPermissions($permissions, $pid = 0, $level = 0)
     {
-        global $result;
+        static $result;
         foreach ($permissions as $permission) {
             if ($permission['pid'] === $pid) {
                 $result[] = array_merge($permission, ['level' => $level]);
@@ -46,4 +55,29 @@ class PermissionRepository extends Repository
 
         return $result;
     }
+
+    /**
+     * 格式化权限列表为树状结构
+     * @param $permissions
+     * @param int $pid
+     * @return array
+     */
+    private function formatNestPermissions($permissions, $pid = 0)
+    {
+        // 不能用 static
+        $result = array();
+        foreach ($permissions as $v) {
+            if ($v['pid'] == $pid) {
+                foreach ($permissions as $subVal) {
+                    if ($subVal['pid'] == $v['id']) {
+                        $v['children'] = $this->formatNestPermissions($permissions, $v['id']);
+                        break;
+                    }
+                }
+                $result[] = $v;
+            }
+        }
+        return $result;
+    }
+
 }
