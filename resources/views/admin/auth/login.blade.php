@@ -21,10 +21,12 @@
 
         <form method="post" action="{{ route('admin.login') }}" class="layui-form">
             @csrf
-            <input name="name" value="{{ old('name') }}" placeholder="用户名" type="text" lay-verify="name"
+            <input name="name" value="{{ old('name') }}" placeholder="用户名" type="text" lay-verType="tips"
+                   lay-verify="required|name"
                    class="layui-input">
             <hr class="hr15">
-            <input name="password" lay-verify="password" placeholder="密码" type="password" class="layui-input">
+            <input name="password" lay-verType="tips" lay-verify="required|pwd" placeholder="密码" type="password"
+                   class="layui-input">
             <hr class="hr15">
             <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
             <hr class="hr20">
@@ -40,14 +42,42 @@
 
                 form.verify({
                     name: function (value) {
-                        if (value.length < 5) {
-                            return '用户名 至少得 6 个字符啊.';
+                        if (value.length < 2) {
+                            return '用户名至少要 2 个字符';
                         }
                     }
-                    , password: [/^[\S]{6,12}$/, '密码必须6到12位.']
+                    , pwd: [/^[\S]{6,12}$/, '密码必须6到20位']
                 });
 
-                form.on('submit(login)', function (data) {
+                form.on('submit(login)', function (formData) {
+                    $.ajax({
+                        url: "{{ route('admin.login') }}",
+                        data: formData.field,
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.code == 2000000) {
+                                layer.msg(data.message, {
+                                    icon: 6,
+                                    time: 1000
+                                }, function () {
+                                    location.href = "{{ route('admin.home') }}";
+                                });
+                            } else {
+                                layer.alert("" + data.message, {icon: 5}, function (index) {
+                                    layer.close(index);
+                                });
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            let error = "Error: " + jqXHR.responseJSON.message;
+                            layer.alert(error, {icon: 5}, function (index) {
+                                layer.close(index);
+                            });
+                        }
+                    });
+
+                    return false;
                 });
 
             });

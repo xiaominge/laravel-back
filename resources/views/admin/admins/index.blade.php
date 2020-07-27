@@ -2,7 +2,7 @@
     @endphp
 @extends('layouts.admin')
 
-@section('title', config('app.name') . ' - 管理平台 - 角色列表')
+@section('title', config('app.name') . ' - 管理平台 - 管理员列表')
 
 @section('top-js')
     <script type="text/javascript" src="{{ asset('X-admin/js/xadmin.js') }}"></script>
@@ -10,7 +10,7 @@
 
 @section('content')
 
-    @include('admin.common.crumb', ['title' => '角色列表'])
+    @include('admin.common.crumb', ['title' => '管理员列表'])
 
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
@@ -18,44 +18,50 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <button class="layui-btn"
-                                onclick="xadmin.open('添加角色','{{ split_url(route('admin.roles.create'))[1] }}', 750, 470)">
+                                onclick="xadmin.open('添加管理员','{{ split_url(route('admin.admins.create'))[1] }}', 500, 400)">
                             <i class="layui-icon layui-icon-add-circle"></i>添加
                         </button>
                     </div>
                     <div class="layui-card-body ">
+                        <div class="layui-tab layui-tab-brief" lay-filter="user-role">
+                            <ul class="layui-tab-title" id="user-role-ul" data-current-role="{{ $roleId }}">
+                                @foreach($roles as $index => $role)
+                                    <li class="@if($roleId == $role->id) layui-this @endif"
+                                        lay-id="{{ $role->id }}">
+                                        {{ $role->name }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                         <table class="layui-table layui-form">
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>角色名</th>
-                                <th>描述</th>
-                                <th>key</th>
+                                <th>名称</th>
+                                <th>邮箱</th>
                                 <th>创建时间</th>
                                 <th>修改时间</th>
                                 <th>删除时间</th>
                                 <th>操作</th>
                             </thead>
                             <tbody>
-
-                            @foreach($rolesData as $role)
-
+                            @foreach($admins as $admin)
                                 <tr>
-                                    <td>{{ $role->id }}</td>
-                                    <td>{{ $role->name }}</td>
-                                    <td>{{ $role->description }}</td>
-                                    <td>{{ $role->key }}</td>
-                                    <td>{{ time_format($role->created_at) }}</td>
-                                    <td>{{ time_format($role->updated_at) }}</td>
-                                    <td style="color: #FF5722">{{ time_format($role->deleted_at) }}</td>
+                                    <td>{{ $admin->id }}</td>
+                                    <td>{{ $admin->name }}</td>
+                                    <td>{{ $admin->email }}</td>
+                                    <td>{{ time_format($admin->created_at) }}</td>
+                                    <td>{{ time_format($admin->updated_at) }}</td>
+                                    <td style="color: #FF5722">{{ time_format($admin->deleted_at) }}</td>
                                     <td class="td-manage">
                                         <a title="编辑"
-                                           data-url="{{ split_url(route('admin.roles.edit', ['id' => $role->id]))[1] }}"
-                                           onclick="editRole(this)"
+                                           data-url="{{ split_url(route('admin.admins.edit', ['id' => $admin->id]))[1] }}"
+                                           onclick="editAdmin(this)"
                                            href="javascript:;">
                                             <i class="layui-icon">&#xe642;</i>
                                         </a>
-                                        <a title="删除" data-url="{{ route('admin.roles.destroy', $role->id) }}"
-                                           onclick="delRole(this)" href="javascript:;">
+                                        <a title="删除" data-url="{{ route('admin.admins.destroy', $admin->id) }}"
+                                           onclick="delAdmin(this)" href="javascript:;">
                                             <i class="layui-icon">&#xe640;</i>
                                         </a>
                                     </td>
@@ -65,7 +71,7 @@
                         </table>
                     </div>
 
-                    {{ $rolesData->links('admin.common.page', ['paginator' => $rolesData]) }}
+                    {{ $admins->links('admin.common.page', ['paginator' => $admins]) }}
 
                 </div>
             </div>
@@ -75,29 +81,25 @@
 
 @section('bottom-js')
     <script>
-        layui.use(['laydate', 'form'], function () {
+        layui.use(['laydate', 'form', 'element'], function () {
             var laydate = layui.laydate;
             var form = layui.form;
-
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#start' //指定元素
-            });
-
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#end' //指定元素
+            var element = layui.element;
+            // 监听Tab切换
+            element.on('tab(user-role)', function (data) {
+                var layId = this.getAttribute('lay-id');
+                location.href = '{{ route("admin.admins.index") }}' + '?id=' + layId;
             });
         });
 
-        function editRole(obj) {
+        function editAdmin(obj) {
             var obj = $(obj);
             xadmin.open('编辑', obj.data('url'), 750, 470);
         }
 
-        function delRole(obj) {
+        function delAdmin(obj) {
             var obj = $(obj);
-            layer.confirm('确认要删除这个角色吗？', function (i) {
+            layer.confirm('确认要删除这个管理员吗？', function (i) {
                 // 发异步请求删除数据
                 $.ajax({
                     url: obj.data('url'),
@@ -105,12 +107,13 @@
                     type: "post",
                     dataType: "json",
                     success: function (res) {
+                        console.log(res);
                         if (res.code === 2000000) {
                             layer.msg(res.message, {
                                 icon: 6,
                                 time: 1000
                             }, function () {
-                                location.reload();
+                                element.tabChange("user-role", $("#user-role-ul").data('current-role'));
                             });
                         } else {
                             layer.alert(res.message, {icon: 5}, function (index) {

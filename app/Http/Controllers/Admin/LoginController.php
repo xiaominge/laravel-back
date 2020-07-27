@@ -56,7 +56,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        return redirect($this->redirectTo);
+        return user_business_handler()->success(null, '登录成功，请稍等...');
     }
 
     /**

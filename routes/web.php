@@ -36,6 +36,7 @@ Route::group(
         Route::get('/', 'HomeController@index')->name('home');
         // 欢迎页
         Route::get('welcome', 'HomeController@welcome')->name('welcome');
+
         // 用户角色
         Route::get('roles', 'RoleController@index')->name('roles.index');
         Route::get('roles/create', 'RoleController@create')->name('roles.create');
@@ -47,15 +48,14 @@ Route::group(
         // 权限管理
         Route::get('permissions', 'PermissionController@index')->name('permissions.index');
         Route::get('permissions/create', 'PermissionController@create')->name('permissions.create');
-        Route::get('permissions/{id}/edit', 'PermissionController@edit')->name('permissions.edit');
-        Route::delete('permissions/{id}', 'PermissionController@destroy')->name('permissions.destroy');
-        Route::put('permissions/{id}', 'PermissionController@update')->name('permissions.update');
         Route::post('permissions', 'PermissionController@store')->name('permissions.store');
+        Route::get('permissions/{id}/edit', 'PermissionController@edit')->name('permissions.edit');
+        Route::put('permissions/{id}', 'PermissionController@update')->name('permissions.update');
+        Route::delete('permissions/{id}', 'PermissionController@destroy')->name('permissions.destroy');
 
         // 管理员管理
         Route::get('admins', 'AdminController@index')->name('admins.index');
         Route::get('admins/create', 'AdminController@create')->name('admins.create');
-        Route::delete('admins/{id}', 'AdminController@destroy')->name('admins.destroy');
         Route::post('admins', 'AdminController@store')->name('admins.store');
         Route::get('admins/{id}/edit', 'AdminController@edit')->name('admins.edit');
         Route::put('admins/{id}', 'AdminController@update')->name('admins.update');

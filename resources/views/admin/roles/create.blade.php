@@ -15,8 +15,12 @@
         .layui-table tr td {
             padding-bottom: 20px;
         }
+
+        body {
+            background-color: #fff;
+        }
     </style>
-    <div class="layui-fluid" style="background-color: #fff;">
+    <div class="layui-fluid" style="">
         <div class="layui-row">
             <form action="{{ route('admin.roles.store') }}" method="post" class="layui-form ">
                 @csrf
@@ -27,14 +31,9 @@
                         </label>
                         <div class="layui-input-inline">
                             <input type="text" id="name" name="name" value="{{ old('name') }}"
-                                   required="" lay-verify="name" placeholder="请输入角色名称"
+                                   lay-verType="tips" lay-verify="name" placeholder="请输入角色名称"
                                    autocomplete="off"
                                    class="layui-input {{ $errors->has('name') ? 'layui-form-danger' : '' }}">
-                            @if ($errors->has('name'))
-                                <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('name') }}</strong>
-                            </span>
-                            @endif
                         </div>
 
                         <label for="key" class="layui-form-label">
@@ -42,14 +41,9 @@
                         </label>
                         <div class="layui-input-inline">
                             <input type="text" id="key" name="key" value="{{ old('key') }}"
-                                   required="" lay-verify="key"
+                                   lay-verType="tips" lay-verify="key"
                                    autocomplete="off" placeholder="请输入角色 key"
                                    class="layui-input {{ $errors->has('key') ? 'layui-form-danger' : '' }}">
-                            @if ($errors->has('key'))
-                                <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('key') }}</strong>
-                            </span>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -59,13 +53,9 @@
                         <span class="x-red">*</span>角色描述
                     </label>
                     <div class="layui-input-block">
-                        <textarea lay-verify="description" placeholder="请输入角色描述" id="description" name="description"
+                        <textarea lay-verType="tips" lay-verify="description" placeholder="请输入角色描述" id="description"
+                                  name="description"
                                   class="layui-textarea {{ $errors->has('description') ? 'layui-form-danger' : '' }}">{{ old('description') }}</textarea>
-                        @if ($errors->has('description'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('description') }}</strong>
-                            </span>
-                        @endif
                     </div>
                 </div>
 
@@ -78,7 +68,8 @@
                         @foreach($permissions as $permission)
                             <tr>
                                 <td>
-                                    <input lay-verify="permissions" type="checkbox" name="permissions[]"
+                                    <input lay-verType="tips" lay-verify="permissions" type="checkbox"
+                                           name="permissions[]"
                                            lay-skin="primary"
                                            lay-filter="grandfather"
                                            value="{{ $permission->id }}"
@@ -88,13 +79,15 @@
                                     @if(!empty($permission->children))
                                         <div class="">
                                             @foreach($permission->children as $twoLevel)
-                                                <input lay-verify="permissions" name="permissions[]" lay-skin="primary"
+                                                <input lay-verType="tips" lay-verify="permissions" name="permissions[]"
+                                                       lay-skin="primary"
                                                        type="checkbox"
                                                        title="{{ $twoLevel->name }}" value="{{ $twoLevel->id }}"
                                                        lay-filter="father">
                                                 @if(!empty($twoLevel->children))
                                                     @foreach($twoLevel->children as $threeLevel)
-                                                        <input lay-verify="permissions" name="permissions[]"
+                                                        <input lay-verType="tips" lay-verify="permissions"
+                                                               name="permissions[]"
                                                                lay-skin="primary" type="checkbox"
                                                                title="{{ $threeLevel->name }}"
                                                                value="{{ $threeLevel->id }}">
@@ -157,8 +150,10 @@
                         return '角色描述最多 255 个字符';
                     }
                 }
-                , permissions: function (value) {
-                    if (value.length < 1) {
+                , permissions: function (value, item) {
+                    var verifyElem = $('.layui-form').find("input[name='permissions[]']");
+                    var isChecked = verifyElem.is(':checked');
+                    if (!isChecked) {
                         return '请选择角色拥有的权限';
                     }
                 }
@@ -174,11 +169,8 @@
                     dataType: "json",
                     success: function (data) {
                         let successCallBack = function (index) {
-                            // 关闭当前弹窗
-                            layer.close(index);
-                            var parentIndex = parent.layer.getFrameIndex(window.name);
-                            // 关闭父级弹窗
-                            parent.layer.close(parentIndex);
+                            layer.closeAll();
+                            parent.layer.closeAll();
                             parent.location.reload();
                         };
                         if (data.code == 2000000) {

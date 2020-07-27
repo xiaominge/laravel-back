@@ -37,8 +37,8 @@ class HomeController extends Controller
     {
         $statistics = [];
         $server = $_SERVER;
-        $statistics['admin'] = repository()->admin->m()->count();
-        $statistics['role'] = repository()->role->m()->count();
+        $statistics['admin'] = repository()->admin->m()->where('deleted_at', 0)->count();
+        $statistics['role'] = repository()->role->m()->where('deleted_at', 0)->count();
         return view('admin.home.welcome', compact('server', 'statistics'));
     }
 }

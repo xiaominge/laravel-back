@@ -17,27 +17,31 @@ class AdminController extends Controller
 
     public function index(Request $request)
     {
-        $limit = $request->get('limit', 20);
-        $roleId = $request->id;
+        $roles = repository()->role->getAdminRoles();
+        $roleId = $request->id ?: $roles->first()->id;
+
         try {
             $role = repository()->role->findById($roleId);
         } catch (BusinessException $e) {
             return user_business_handler()->fail($e->getMessage());
         }
+        $limit = $request->get('limit', 20);
         $admins = $role->admins()->paginate($limit);
-        $listData = [
-            'count' => $admins->total(),
-            'data' => $admins->items(),
-        ];
 
-        $roles = repository()->role->getAdminRoles();
-        return view('admin.admins.index', compact('roles', 'listData'));
+        return view('admin.admins.index', compact('roleId', 'roles', 'admins'));
     }
 
     public function create()
     {
-        $roles = repository()->role->all();
-        return view('admin.admins.create', compact('roles'));
+        $roles = [];
+        $rolesCollect = repository()->role->getAdminRoles();
+        foreach ($rolesCollect as $role) {
+            $roles[] = [
+                'value' => $role['id'],
+                'name' => $role['name'],
+            ];
+        }
+        return view('admin.admins.create')->with('roles', json_encode($roles));
     }
 
     public function destroy($id)

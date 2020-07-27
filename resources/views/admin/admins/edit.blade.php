@@ -15,12 +15,8 @@
         .layui-table tr td {
             padding-bottom: 20px;
         }
-
-        body {
-            background-color: #fff;
-        }
     </style>
-    <div class="layui-fluid" style="">
+    <div class="layui-fluid" style="background-color: #fff;">
         <div class="layui-row">
             <form id="roles-edit-form" action="{{ route('admin.roles.update', $role->id) }}" method="post"
                   class="layui-form ">
@@ -33,9 +29,14 @@
                         </label>
                         <div class="layui-input-inline">
                             <input type="text" id="name" name="name" value="{{ old('name', $role->name) }}"
-                                   lay-verType="tips" lay-verify="name" placeholder="请输入角色名称"
+                                   required="" lay-verify="name" placeholder="请输入角色名称"
                                    autocomplete="off"
                                    class="layui-input {{ $errors->has('name') ? 'layui-form-danger' : '' }}">
+                            @if ($errors->has('name'))
+                                <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('name') }}</strong>
+                            </span>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -45,9 +46,13 @@
                         <span class="x-red">*</span>角色描述
                     </label>
                     <div class="layui-input-block">
-                        <textarea lay-verType="tips" lay-verify="description" placeholder="请输入角色描述" id="description"
-                                  name="description"
+                        <textarea lay-verify="description" placeholder="请输入角色描述" id="description" name="description"
                                   class="layui-textarea {{ $errors->has('description') ? 'layui-form-danger' : '' }}">{{ old('description', $role->description) }}</textarea>
+                        @if ($errors->has('description'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('description') }}</strong>
+                            </span>
+                        @endif
                     </div>
                 </div>
 
@@ -65,8 +70,7 @@
                                 @endphp
                             <tr>
                                 <td>
-                                    <input lay-verType="tips" lay-verify="permissions" type="checkbox"
-                                           name="permissions[]"
+                                    <input lay-verify="permissions" type="checkbox" name="permissions[]"
                                            lay-skin="primary"
                                            lay-filter="grandfather"
                                            @if(in_array($permission->id, $currentChecked))
@@ -79,8 +83,7 @@
                                     @if(!empty($permission->children))
                                         <div class="">
                                             @foreach($permission->children as $twoLevel)
-                                                <input lay-verType="tips" lay-verify="permissions" name="permissions[]"
-                                                       lay-skin="primary"
+                                                <input lay-verify="permissions" name="permissions[]" lay-skin="primary"
                                                        type="checkbox"
                                                        @if(in_array($twoLevel->id, $currentChecked))
                                                        checked
@@ -89,8 +92,7 @@
                                                        lay-filter="father">
                                                 @if(!empty($twoLevel->children))
                                                     @foreach($twoLevel->children as $threeLevel)
-                                                        <input lay-verType="tips" lay-verify="permissions"
-                                                               name="permissions[]"
+                                                        <input lay-verify="permissions" name="permissions[]"
                                                                lay-skin="primary" type="checkbox"
                                                                @if(in_array($threeLevel->id, $currentChecked))
                                                                checked
@@ -147,10 +149,8 @@
                         return '角色描述最多 255 个字符';
                     }
                 }
-                , permissions: function (value, item) {
-                    var verifyElem = $('.layui-form').find("input[name='permissions[]']");
-                    var isChecked = verifyElem.is(':checked');
-                    if (!isChecked) {
+                , permissions: function (value) {
+                    if (value.length < 1) {
                         return '请选择角色拥有的权限';
                     }
                 }
@@ -166,8 +166,11 @@
                     dataType: "json",
                     success: function (data) {
                         let successCallBack = function (index) {
-                            layer.closeAll();
-                            parent.layer.closeAll();
+                            // 关闭当前弹窗
+                            layer.close(index);
+                            var parentIndex = parent.layer.getFrameIndex(window.name);
+                            // 关闭父级弹窗
+                            parent.layer.close(parentIndex);
                             parent.location.reload();
                         };
                         if (data.code == 2000000) {
