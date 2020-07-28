@@ -19,19 +19,21 @@ class AdminRequest extends Base
                     'name' => 'required|min:2|max:20',
                     'email' => 'required|email',
                     'role_id' => 'required',
-                    'password' => 'required|min:6|max:20'
+                    'password' => 'required|min:6|max:20',
                 ];
                 break;
             case 'admin.admins.update':
                 return [
                     'name' => 'required|min:2|max:20',
+                    'email' => 'required|email',
                     'role_id' => 'required',
+                    'password' => 'nullable|min:6|max:20',
                 ];
                 break;
             case 'user.admins.password':
                 return [
                     'old_password' => 'required',
-                    'password' => 'required|min:6|max:20'
+                    'password' => 'required|min:6|max:20',
                 ];
                 break;
         }
@@ -58,7 +60,11 @@ class AdminRequest extends Base
                     'name.required' => '用户名是必填项',
                     'name.min' => '用户名称至少得 2 个字符',
                     'name.max' => '用户名称最多 20 个字符',
+                    'email.required' => '邮箱是必填项',
+                    'email.email' => '邮箱格式不正确',
                     'role_id.required' => '用户角色是必填项',
+                    'password.min' => '密码最少 6 个字符',
+                    'password.max' => '密码最多 20 个字符',
                 ];
                 break;
             case 'admin.admins.password':

@@ -22,7 +22,7 @@
     </style>
     <div class="layui-fluid" style="">
         <div class="layui-row">
-            <form id="roles-edit-form" action="{{ route('admin.roles.update', $role->id) }}" method="post"
+            <form id="role-edit-form" action="{{ route('admin.roles.update', $role->id) }}" method="post"
                   class="layui-form ">
                 @csrf
                 @method('PUT')
@@ -158,41 +158,10 @@
 
             // 监听提交
             form.on('submit(edit)', function (data) {
-                // 发异步，把数据提交给 php
-                $.ajax({
-                    url: $("#roles-edit-form").attr('action'),
-                    data: data.field,
-                    type: "post",
-                    dataType: "json",
-                    success: function (data) {
-                        let successCallBack = function (index) {
-                            layer.closeAll();
-                            parent.layer.closeAll();
-                            parent.location.reload();
-                        };
-                        if (data.code == 2000000) {
-                            layer.open({
-                                title: '编辑角色'
-                                , content: data.message
-                                , area: ['300px', '150px']
-                                , btn: ['关闭']
-                                , yes: successCallBack
-                                , cancel: successCallBack
-                            });
-                        } else {
-                            layer.alert("" + data.message, {icon: 5}, function (index) {
-                                layer.close(index);
-                            });
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        let error = "Error: " + jqXHR.responseJSON.message;
-                        layer.alert(error, {icon: 5}, function (index) {
-                            layer.close(index);
-                        });
-                    }
+                sendAjax({
+                    'url': $('#role-edit-form').attr('action'),
+                    'data': data.field,
                 });
-
                 return false;
             });
 

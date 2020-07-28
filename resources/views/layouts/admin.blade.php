@@ -26,6 +26,7 @@
 <!-- 底部结束 -->
 
 </body>
+<script src="{{ asset('js/own.js') }}"></script>
 <script>
     layui.use('jquery', function () {
         var $ = layui.$;

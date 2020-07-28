@@ -4,7 +4,6 @@
 
 @section('top-js')
     <script type="text/javascript" src="{{ asset('X-admin/js/xadmin.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('X-admin/js/xm-select.js') }}"></script>
 @endsection
 
 @section('content')
@@ -23,7 +22,7 @@
     </style>
     <div class="layui-fluid" style="">
         <div class="layui-row">
-            <form action="{{ route('admin.admins.store') }}" method="post" class="layui-form">
+            <form id="create-form" action="{{ route('admin.admins.store') }}" method="post" class="layui-form">
                 @csrf
                 <div class="layui-form-item ">
                     <label for="name" class="layui-form-label">
@@ -31,7 +30,7 @@
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" id="name" name="name" value="{{ old('name') }}"
-                               lay-verify="name" lay-verType="tips" placeholder="请输入名称"
+                               lay-verify="required|name" lay-verType="tips" placeholder="请输入名称"
                                autocomplete="off"
                                class="layui-input {{ $errors->has('name') ? 'layui-form-danger' : '' }}">
                     </div>
@@ -83,6 +82,7 @@
 @endsection
 
 @section('bottom-js')
+    <script type="text/javascript" src="{{ asset('X-admin/js/xm-select.js') }}"></script>
     <script>
 
         layui.use(['form', 'layer'], function () {
@@ -94,9 +94,12 @@
             var roleId = xmSelect.render({
                 el: '#role_id',
                 data: roleJson,
+                tips: '请选择角色',
+                empty: '没有选项可供选择',
+                searchTips: '搜索角色名称',
                 layVerify: 'required',
                 layVerType: 'tips',
-                name: 'role_id'
+                name: 'role_id',
             });
 
             form.verify({
@@ -116,43 +119,16 @@
 
             // 监听提交
             form.on('submit(add)', function (formData) {
-                // 发异步，把数据提交给 php
-                $.ajax({
-                    url: "{{ route('admin.admins.store') }}",
-                    data: formData.field,
-                    type: "post",
-                    dataType: "json",
-                    success: function (data) {
-                        let successCallBack = function (index) {
-                            var selectedRole = formData.field.role_id.split(',');
-                            var firstRole = selectedRole[0];
-                            layer.closeAll();
-                            parent.layer.closeAll();
-                            parent.element.tabChange("user-role", firstRole);
-                        };
-                        if (data.code == 2000000) {
-                            layer.open({
-                                title: '添加角色'
-                                , content: data.message
-                                , area: ['300px', '150px']
-                                , btn: ['关闭']
-                                , yes: successCallBack
-                                , cancel: successCallBack
-                            });
-                        } else {
-                            layer.alert("" + data.message, {icon: 5}, function (index) {
-                                layer.close(index);
-                            });
-                        }
+                sendAjax({
+                    'url': $('#create-form').attr('action'),
+                    'data': formData.field,
+                    'closeLayerCallBack': function (index) {
+                        layer.closeAll();
+                        parent.layer.closeAll();
+                        var firstRole = formData.field.role_id.split(',')[0];
+                        parent.element.tabChange("user-role", firstRole);
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        let error = "Error: " + jqXHR.responseJSON.message;
-                        layer.alert(error, {icon: 5}, function (index) {
-                            layer.close(index);
-                        });
-                    }
                 });
-
                 return false;
             });
         });

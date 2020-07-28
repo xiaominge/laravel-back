@@ -53,3 +53,5 @@
     <!-- 右侧主体结束 -->
     <!-- 中部结束 -->
 @endsection
+@section('bottom-js')
+@endsection

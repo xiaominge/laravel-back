@@ -40,7 +40,7 @@ LOCK TABLES `admin_role` WRITE;
 INSERT INTO `admin_role` (`id`, `admin_id`, `role_id`, `created_at`, `updated_at`, `deleted_at`)
 VALUES
   (1,1,1,1553752888,1553752888,0),
-  (2,2,2,1554265387,1554265387,0);
+  (2,2,1,1554265387,1554265387,0);
 
 UNLOCK TABLES;
 

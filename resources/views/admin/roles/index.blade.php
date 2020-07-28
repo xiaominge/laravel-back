@@ -98,32 +98,18 @@
         function delRole(obj) {
             var obj = $(obj);
             layer.confirm('确认要删除这个角色吗？', function (i) {
-                // 发异步请求删除数据
-                $.ajax({
-                    url: obj.data('url'),
-                    data: {_method: 'delete'},
-                    type: "post",
-                    dataType: "json",
-                    success: function (res) {
+                sendAjax({
+                    'url': obj.data('url'),
+                    'data': {_method: 'delete'},
+                    'successCallBack': function (res) {
                         if (res.code === 2000000) {
-                            layer.msg(res.message, {
-                                icon: 6,
-                                time: 1000
-                            }, function () {
+                            layer.msg(res.message, {icon: 6, time: 1500}, function () {
                                 location.reload();
                             });
                         } else {
-                            layer.alert(res.message, {icon: 5}, function (index) {
-                                layer.close(index);
-                            });
+                            layer.msg(res.message, {icon: 5, time: 1500});
                         }
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        let errorStr = "Error: " + jqXHR.responseJSON.message;
-                        layer.alert(errorStr, {icon: 5}, function (index) {
-                            layer.close(index);
-                        });
-                    }
                 });
             });
         }

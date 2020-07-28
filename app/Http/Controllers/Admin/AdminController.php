@@ -54,7 +54,7 @@ class AdminController extends Controller
             // 管理员与角色关系
             $admin->roles()->update(['admin_role.deleted_at' => time()]);
             DB::commit();
-            return user_business_handler()->success();
+            return user_business_handler()->success('', '管理员删除成功');
         } catch (\Exception $e) {
             DB::rollBack();
             return user_business_handler()->fail($e->getMessage());
@@ -89,9 +89,17 @@ class AdminController extends Controller
     public function edit($id)
     {
         $admin = repository()->admin->findById($id);
-        $roleIds = $admin->roles()->where('admin_id', $id)->pluck('role_id')->toArray();
-        $roles = repository()->role->getAdminRoles();
-        return view('admin.admins.edit', compact('roles', 'admin', 'roleIds'));
+        $roleIds = $admin->roles->pluck('id')->toJson();
+        $roles = [];
+        $rolesCollect = repository()->role->getAdminRoles();
+        foreach ($rolesCollect as $role) {
+            $roles[] = [
+                'value' => $role['id'],
+                'name' => $role['name'],
+            ];
+        }
+        return view('admin.admins.edit', compact('admin', 'roleIds'))
+            ->with('roles', json_encode($roles));
     }
 
     public function update(AdminRequest $request, $id)
@@ -104,7 +112,7 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'updated_at' => time(),
             ];
-            if ($request->password) {
+            if (!empty($request->password)) {
                 $data['password'] = bcrypt($request->password);
             }
             $admin->update($data);

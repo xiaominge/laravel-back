@@ -94,42 +94,29 @@
 
         function editAdmin(obj) {
             var obj = $(obj);
-            xadmin.open('编辑', obj.data('url'), 750, 470);
+            xadmin.open('编辑', obj.data('url'), 500, 400);
         }
 
         function delAdmin(obj) {
             var obj = $(obj);
             layer.confirm('确认要删除这个管理员吗？', function (i) {
-                // 发异步请求删除数据
-                $.ajax({
-                    url: obj.data('url'),
-                    data: {_method: 'delete'},
-                    type: "post",
-                    dataType: "json",
-                    success: function (res) {
-                        console.log(res);
+                sendAjax({
+                    'url': obj.data('url'),
+                    'data': {_method: 'delete'},
+                    'successCallBack': function (res) {
                         if (res.code === 2000000) {
-                            layer.msg(res.message, {
-                                icon: 6,
-                                time: 1000
-                            }, function () {
+                            layer.msg(res.message, {icon: 6, time: 1500}, function () {
                                 element.tabChange("user-role", $("#user-role-ul").data('current-role'));
                             });
                         } else {
-                            layer.alert(res.message, {icon: 5}, function (index) {
-                                layer.close(index);
-                            });
+                            layer.msg(res.message, {icon: 5, time: 1500});
                         }
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        let errorStr = "Error: " + jqXHR.responseJSON.message;
-                        layer.alert(errorStr, {icon: 5}, function (index) {
-                            layer.close(index);
-                        });
-                    }
                 });
             });
         }
 
     </script>
+@endsection
+@section('bottom-js')
 @endsection

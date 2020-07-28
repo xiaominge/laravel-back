@@ -22,7 +22,7 @@
     </style>
     <div class="layui-fluid" style="">
         <div class="layui-row">
-            <form action="{{ route('admin.roles.store') }}" method="post" class="layui-form ">
+            <form id="create-form" action="{{ route('admin.roles.store') }}" method="post" class="layui-form ">
                 @csrf
                 <div class="layui-form-item ">
                     <div class="layui-inline">
@@ -161,41 +161,10 @@
 
             // 监听提交
             form.on('submit(add)', function (data) {
-                // 发异步，把数据提交给 php
-                $.ajax({
-                    url: "{{ route('admin.roles.store') }}",
-                    data: data.field,
-                    type: "post",
-                    dataType: "json",
-                    success: function (data) {
-                        let successCallBack = function (index) {
-                            layer.closeAll();
-                            parent.layer.closeAll();
-                            parent.location.reload();
-                        };
-                        if (data.code == 2000000) {
-                            layer.open({
-                                title: '添加角色'
-                                , content: data.message
-                                , area: ['300px', '150px']
-                                , btn: ['关闭']
-                                , yes: successCallBack
-                                , cancel: successCallBack
-                            });
-                        } else {
-                            layer.alert("" + data.message, {icon: 5}, function (index) {
-                                layer.close(index);
-                            });
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        let error = "Error: " + jqXHR.responseJSON.message;
-                        layer.alert(error, {icon: 5}, function (index) {
-                            layer.close(index);
-                        });
-                    }
+                sendAjax({
+                    'url': $('#create-form').attr('action'),
+                    'data': data.field,
                 });
-
                 return false;
             });
 

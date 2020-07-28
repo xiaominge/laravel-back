@@ -13,7 +13,8 @@
                     <div class="layui-card-body ">
                         <blockquote class="layui-elem-quote">欢迎管理员：
                             <span
-                                class="x-red">{{ Auth::guard('admin')->user()->name }}</span> ！ 当前时间：{{ date("Y-m-d H:i:s") }}
+                                class="x-red">{{ Auth::guard('admin')->user()->name }}</span> ！
+                            当前时间：{{ date("Y-m-d H:i:s") }}
                         </blockquote>
                     </div>
                 </div>
@@ -83,4 +84,6 @@
             <style id="welcome_style"></style>
         </div>
     </div>
+@endsection
+@section('bottom-js')
 @endsection
