@@ -4,6 +4,18 @@
 
 @section('title', config('app.name') . ' - 管理平台 - 管理员列表')
 
+@section('css')
+    <style>
+        .layui-table {
+            table-layout: fixed;
+        }
+
+        .layui-table-overflow {
+            overflow-x: auto;
+        }
+    </style>
+@endsection
+
 @section('top-js')
     <script type="text/javascript" src="{{ asset('X-admin/js/xadmin.js') }}"></script>
 @endsection
@@ -33,42 +45,44 @@
                                 @endforeach
                             </ul>
                         </div>
-                        <table class="layui-table layui-form">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>名称</th>
-                                <th>邮箱</th>
-                                <th>创建时间</th>
-                                <th>修改时间</th>
-                                <th>删除时间</th>
-                                <th>操作</th>
-                            </thead>
-                            <tbody>
-                            @foreach($admins as $admin)
+                        <div class="layui-table-overflow">
+
+                            <table class="layui-table">
+                                <thead>
                                 <tr>
-                                    <td>{{ $admin->id }}</td>
-                                    <td>{{ $admin->name }}</td>
-                                    <td>{{ $admin->email }}</td>
-                                    <td>{{ time_format($admin->created_at) }}</td>
-                                    <td>{{ time_format($admin->updated_at) }}</td>
-                                    <td style="color: #FF5722">{{ time_format($admin->deleted_at) }}</td>
-                                    <td class="td-manage">
-                                        <a title="编辑"
-                                           data-url="{{ split_url(route('admin.admins.edit', ['id' => $admin->id]))[1] }}"
-                                           onclick="editAdmin(this)"
-                                           href="javascript:;">
-                                            <i class="layui-icon">&#xe642;</i>
-                                        </a>
-                                        <a title="删除" data-url="{{ route('admin.admins.destroy', $admin->id) }}"
-                                           onclick="delAdmin(this)" href="javascript:;">
-                                            <i class="layui-icon">&#xe640;</i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                    <th style="width: 50px">ID</th>
+                                    <th style="width: 90px">名称</th>
+                                    <th style="width: 170px">邮箱</th>
+                                    <th style="width: 120px">创建时间</th>
+                                    <th style="width: 120px">修改时间</th>
+                                    <th style="width: 60px">操作</th>
+                                </thead>
+                                <tbody>
+                                @foreach($admins as $admin)
+                                    <tr>
+                                        <td>{{ $admin->id }}</td>
+                                        <td>{{ $admin->name }}</td>
+                                        <td>{{ $admin->email }}</td>
+                                        <td>{{ time_format($admin->created_at) }}</td>
+                                        <td>{{ time_format($admin->updated_at) }}</td>
+                                        <td class="td-manage">
+                                            <a title="编辑"
+                                               data-url="{{ split_url(route('admin.admins.edit', ['id' => $admin->id]))[1] }}"
+                                               onclick="editAdmin(this)"
+                                               href="javascript:;">
+                                                <i class="layui-icon">&#xe642;</i>
+                                            </a>
+                                            <a title="删除" data-url="{{ route('admin.admins.destroy', $admin->id) }}"
+                                               onclick="delAdmin(this)" href="javascript:;">
+                                                <i class="layui-icon">&#xe640;</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
 
                     {{ $admins->links('admin.common.page', ['paginator' => $admins]) }}

@@ -1,8 +1,9 @@
 @php
-    @endphp
+    //dd($permissions);
+@endphp
 @extends('layouts.admin')
 
-@section('title', config('app.name') . ' - 管理平台 - 角色列表')
+@section('title', config('app.name') . ' - 管理平台 - 权限列表')
 
 @section('css')
     <style>
@@ -22,7 +23,7 @@
 
 @section('content')
 
-    @include('admin.common.crumb', ['title' => '角色列表'])
+    @include('admin.common.crumb', ['title' => '权限列表'])
 
     <div class="layui-fluid">
         <div class="layui-row layui-col-space1">
@@ -30,43 +31,44 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <button class="layui-btn"
-                                onclick="xadmin.open('添加角色','{{ split_url(route('admin.roles.create'))[1] }}', 750, 470)">
+                                onclick="xadmin.open('添加权限','{{ split_url(route('admin.permissions.create'))[1] }}', 750, 470)">
                             <i class="layui-icon layui-icon-add-circle"></i>添加
                         </button>
                     </div>
-                    <div class="layui-card-body ">
+                    <div class="layui-card-body">
                         <div class="layui-table-overflow">
-
                             <table class="layui-table">
-                                <thead>
+                                <thead class="">
                                 <tr>
-                                    <th style="width: 50px">ID</th>
-                                    <th style="width: 100px">角色名</th>
-                                    <th style="width: 135px">描述</th>
-                                    <th style="width: 100px">key</th>
-                                    <th style="width: 120px">创建时间</th>
-                                    <th style="width: 120px">修改时间</th>
-                                    <th style="width: 60px">操作</th>
+                                    <th style="width:50px">ID</th> <!-- width:50px -->
+                                    <th style="width:50px">排序</th> <!-- width:50px -->
+                                    <th style="width:270px">名称 / 路由</th> <!-- width:270px -->
+                                    <th style="width:65px">父级权限</th> <!-- width:65px -->
+                                    <th style="width:65px">菜单图标</th> <!-- width:65px -->
+                                    <th style="width:250px">创建时间 / 修改时间</th> <!-- width:250px -->
+                                    <th style="width:60px">操作</th>
                                 </thead>
-                                <tbody>
+                                <tbody class="">
 
-                                @foreach($rolesData as $role)
+                                @foreach($permissions as $permission)
 
                                     <tr>
-                                        <td>{{ $role->id }}</td>
-                                        <td>{{ $role->name }}</td>
-                                        <td>{{ $role->description }}</td>
-                                        <td>{{ $role->key }}</td>
-                                        <td>{{ time_format($role->created_at) }}</td>
-                                        <td>{{ time_format($role->updated_at) }}</td>
+                                        <td>{{ $permission->id }}</td>
+                                        <td>{{ $permission->sort }}</td>
+                                        <td>{{ $permission->name }} / {{ $permission->route }}</td>
+                                        <td>{{ $permission->pid }}</td>
+                                        <td>{{ $permission->icon }}</td>
+                                        <td>{{ time_format($permission->created_at) }}
+                                            / {{ time_format($permission->updated_at) }}</td>
                                         <td class="td-manage">
                                             <a title="编辑"
-                                               data-url="{{ split_url(route('admin.roles.edit', ['id' => $role->id]))[1] }}"
+                                               data-url="{{ split_url(route('admin.permissions.edit', ['id' => $permission->id]))[1] }}"
                                                onclick="editRole(this)"
                                                href="javascript:;">
                                                 <i class="layui-icon">&#xe642;</i>
                                             </a>
-                                            <a title="删除" data-url="{{ route('admin.roles.destroy', $role->id) }}"
+                                            <a title="删除"
+                                               data-url="{{ route('admin.permissions.destroy', $permission->id) }}"
                                                onclick="delRole(this)" href="javascript:;">
                                                 <i class="layui-icon">&#xe640;</i>
                                             </a>
@@ -76,10 +78,8 @@
                                 </tbody>
                             </table>
                         </div>
+
                     </div>
-
-                    {{ $rolesData->links('admin.common.page', ['paginator' => $rolesData]) }}
-
                 </div>
             </div>
         </div>
@@ -92,14 +92,14 @@
             var form = layui.form;
         });
 
-        function editRole(obj) {
+        function editPermission(obj) {
             var obj = $(obj);
             xadmin.open('编辑', obj.data('url'), 750, 470);
         }
 
-        function delRole(obj) {
+        function delPermission(obj) {
             var obj = $(obj);
-            layer.confirm('确认要删除这个角色吗？', function (i) {
+            layer.confirm('确认要删除这个权限吗？', function (i) {
                 sendAjax({
                     'url': obj.data('url'),
                     'data': {_method: 'delete'},
