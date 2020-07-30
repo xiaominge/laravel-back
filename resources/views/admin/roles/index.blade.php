@@ -75,19 +75,8 @@
 
 @section('bottom-js')
     <script>
-        layui.use(['laydate', 'form'], function () {
-            var laydate = layui.laydate;
+        layui.use(['form'], function () {
             var form = layui.form;
-
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#start' //指定元素
-            });
-
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#end' //指定元素
-            });
         });
 
         function editRole(obj) {

@@ -12,7 +12,7 @@
             <dl class="layui-nav-child">
                 <!-- 二级菜单 -->
                 <dd>
-                    <a onclick="">个人信息</a>
+                    <a onclick="xadmin.open('修改密码', '{{ route('admin.home.password.change') }}', 400, 315)">修改密码</a>
                 </dd>
                 <dd>
                     <a href="{{ route('admin.logout') }}">退出</a>

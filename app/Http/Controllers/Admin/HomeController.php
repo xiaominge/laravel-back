@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Admin\AdminRequest;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -40,5 +40,30 @@ class HomeController extends Controller
         $statistics['admin'] = repository()->admin->m()->where('deleted_at', 0)->count();
         $statistics['role'] = repository()->role->m()->where('deleted_at', 0)->count();
         return view('admin.home.welcome', compact('server', 'statistics'));
+    }
+
+    public function changePassword()
+    {
+        return view('admin.home.password');
+    }
+
+    public function doChangePassword(AdminRequest $request)
+    {
+        // 检查旧密码是否正确
+        $admin = auth('admin')->user();
+        if (!Hash::check($request->old_password, $admin->password)) {
+            return user_business_handler()->fail('输入的旧密码不正确');
+        }
+        if ($request->password != $request->confirm_password) {
+            return user_business_handler()->fail('两次输入的密码不一致');
+        }
+
+        $admin->password = bcrypt($request->password);
+        $db = $admin->save();
+
+        if ($db) {
+            return user_business_handler()->success('', '密码修改成功');
+        }
+        return user_business_handler()->fail('密码修改失败');
     }
 }

@@ -31,11 +31,15 @@ Route::group(
         'as' => 'admin.',
     ],
     function () {
+        // 登出
         Route::get('logout', 'LoginController@logout')->name('logout');
         // 后台主页面
         Route::get('/', 'HomeController@index')->name('home');
-        // 欢迎页
-        Route::get('welcome', 'HomeController@welcome')->name('welcome');
+        // 后台欢迎页
+        Route::get('welcome', 'HomeController@welcome')->name('home.welcome');
+        // 修改账号密码
+        Route::get('password', 'HomeController@changePassword')->name('home.password.change');
+        Route::put('password', 'HomeController@doChangePassword')->name('home.password.do-change');
 
         // 用户角色
         Route::get('roles', 'RoleController@index')->name('roles.index');

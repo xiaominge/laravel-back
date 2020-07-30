@@ -18,7 +18,7 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <button class="layui-btn"
-                                onclick="xadmin.open('添加管理员','{{ split_url(route('admin.admins.create'))[1] }}', 500, 400)">
+                                onclick="xadmin.open('添加管理员','{{ split_url(route('admin.admins.create'))[1] }}', 500, 380)">
                             <i class="layui-icon layui-icon-add-circle"></i>添加
                         </button>
                     </div>
@@ -81,9 +81,9 @@
 
 @section('bottom-js')
     <script>
-        layui.use(['laydate', 'form', 'element'], function () {
-            var laydate = layui.laydate;
+        layui.use(['form', 'element', 'layer'], function () {
             var form = layui.form;
+            var layer = layui.layer;
             var element = layui.element;
             // 监听Tab切换
             element.on('tab(user-role)', function (data) {
@@ -117,6 +117,4 @@
         }
 
     </script>
-@endsection
-@section('bottom-js')
 @endsection

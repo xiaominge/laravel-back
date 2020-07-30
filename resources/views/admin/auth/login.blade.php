@@ -45,42 +45,28 @@
                         if (value.length < 2) {
                             return '用户名至少要 2 个字符';
                         }
-                    }
-                    , pwd: [/^[\S]{6,12}$/, '密码必须6到20位']
+                    },
+                    pwd: [/^[\S]{6,12}$/, '密码必须6到20位'],
                 });
 
                 form.on('submit(login)', function (formData) {
-                    $.ajax({
-                        url: "{{ route('admin.login') }}",
-                        data: formData.field,
-                        type: "post",
-                        dataType: "json",
-                        success: function (data) {
+                    sendAjax({
+                        'url': "{{ route('admin.login') }}",
+                        'data': formData.field,
+                        'successCallBack': function (data) {
                             if (data.code == 2000000) {
-                                layer.msg(data.message, {
-                                    icon: 6,
-                                    time: 1000
-                                }, function () {
+                                layer.msg(data.message, {icon: 6, time: 1000}, function () {
                                     location.href = "{{ route('admin.home') }}";
                                 });
                             } else {
-                                layer.alert("" + data.message, {icon: 5}, function (index) {
-                                    layer.close(index);
-                                });
+                                layer.msg(data.message, {icon: 5, time: 3000});
                             }
                         },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            let error = "Error: " + jqXHR.responseJSON.message;
-                            layer.alert(error, {icon: 5}, function (index) {
-                                layer.close(index);
-                            });
-                        }
                     });
 
                     return false;
                 });
-
             });
-        })
+        });
     </script>
 @endsection

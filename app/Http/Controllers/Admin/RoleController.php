@@ -51,7 +51,7 @@ class RoleController extends Controller
             ]);
             DB::commit();
 
-            return user_business_handler()->success();
+            return user_business_handler()->success('', '角色创建成功');
         } catch (\Exception $e) {
             DB::rollBack();
             return user_business_handler()->fail($e->getMessage());
@@ -106,7 +106,7 @@ class RoleController extends Controller
             ];
         }
         if ($role->update($updateData) && $role->permissions()->sync($addPermissions)) {
-            return user_business_handler()->success('', '更新角色成功');
+            return user_business_handler()->success('', '角色更新成功');
         } else {
             return user_business_handler()->fail('角色更新失败');
         }
@@ -119,7 +119,7 @@ class RoleController extends Controller
             $role = repository()->role->findById($id);
             $adminIds = $role->admins()->pluck('admins.id')->toArray();
             if ($adminIds) {
-                return user_business_handler()->fail('无法删除, 此角色正在被使用');
+                return user_business_handler()->fail('角色正在被使用，无法删除');
             }
 
             // 解除 角色和权限 之间的关系

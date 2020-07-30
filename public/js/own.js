@@ -33,7 +33,7 @@ function sendAjax(params) {
                     cancel: closeLayerCallBack,
                 });
             } else {
-                layer.msg(data.message, {icon: 5, time: 1000});
+                layer.msg(data.message, {icon: 5, time: 3000});
             }
         };
     }
@@ -43,7 +43,7 @@ function sendAjax(params) {
     } else {
         errorCallBack = function (jqXHR, textStatus, errorThrown) {
             var errorMessage = "Error: " + jqXHR.responseJSON.message;
-            layer.msg(errorMessage, {icon: 5, time: 1000});
+            layer.msg(errorMessage, {icon: 5, time: 3000});
         };
     }
 

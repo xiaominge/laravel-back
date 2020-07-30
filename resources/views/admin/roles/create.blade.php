@@ -2,24 +2,19 @@
 
 @section('title', config('app.name') . ' - 管理平台 - 角色添加')
 
+@section('css')
+    <style>
+        body {
+            background-color: #fff;
+        }
+    </style>
+@endsection
+
 @section('top-js')
     <script type="text/javascript" src="{{ asset('X-admin/js/xadmin.js') }}"></script>
 @endsection
 
 @section('content')
-    <style>
-        .layui-form-item .layui-form-label {
-            margin-top: -4px;
-        }
-
-        .layui-table tr td {
-            padding-bottom: 20px;
-        }
-
-        body {
-            background-color: #fff;
-        }
-    </style>
     <div class="layui-fluid" style="">
         <div class="layui-row">
             <form id="create-form" action="{{ route('admin.roles.store') }}" method="post" class="layui-form ">

@@ -79,7 +79,7 @@ class AdminController extends Controller
             ]);
             DB::commit();
 
-            return user_business_handler()->success();
+            return user_business_handler()->success('', '管理员创建成功');
         } catch (\Exception $e) {
             DB::rollBack();
             return user_business_handler()->fail($e->getMessage());
@@ -128,7 +128,7 @@ class AdminController extends Controller
             $admin->roles()->sync($addRoles);
             DB::commit();
 
-            return user_business_handler()->success();
+            return user_business_handler()->success('', '管理员修改成功');
         } catch (\Exception $e) {
             DB::rollBack();
             return user_business_handler()->fail($e->getMessage());

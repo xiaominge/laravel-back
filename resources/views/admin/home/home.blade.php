@@ -41,7 +41,7 @@
             </div>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    <iframe src='{{ split_url(route('admin.welcome'))[1] }}' frameborder="0" scrolling="yes"
+                    <iframe src='{{ split_url(route('admin.home.welcome'))[1] }}' frameborder="0" scrolling="yes"
                             class="x-iframe"></iframe>
                 </div>
             </div>

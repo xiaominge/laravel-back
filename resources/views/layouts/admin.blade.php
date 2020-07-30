@@ -16,6 +16,11 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .layui-form-item .layui-form-label, .layui-form-mid {
+            margin-top: -4px;
+        }
+    </style>
     @yield('css')
     @yield('top-js')
 </head>

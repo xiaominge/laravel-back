@@ -17,7 +17,10 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = repository()->permission->allFormatPermissions();
-        return view('admin.permissions.index', compact('permissions'));
+        $permissions = collect($permissions)->map(function ($item) {
+            return (object)$item;
+        });
+        return view('admin.permissions.index')->with('permissions', $permissions);
     }
 
     public function create()

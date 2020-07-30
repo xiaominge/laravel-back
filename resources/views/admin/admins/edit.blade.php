@@ -2,24 +2,19 @@
 
 @section('title', config('app.name') . ' - 管理平台 - 编辑管理员')
 
+@section('css')
+    <style>
+        body {
+            background-color: #fff;
+        }
+    </style>
+@endsection
+
 @section('top-js')
     <script type="text/javascript" src="{{ asset('X-admin/js/xadmin.js') }}"></script>
 @endsection
 
 @section('content')
-    <style>
-        .layui-form-item .layui-form-label {
-            margin-top: -4px;
-        }
-
-        .layui-table tr td {
-            padding-bottom: 20px;
-        }
-
-        body {
-            background-color: #fff;
-        }
-    </style>
     <div class="layui-fluid" style="">
         <div class="layui-row">
             <form id="admin-edit-form" action="{{ route('admin.admins.update', $admin->id) }}" method="post"
@@ -35,18 +30,6 @@
                                lay-verify="required|name" lay-verType="tips" placeholder="请输入名称"
                                autocomplete="off"
                                class="layui-input {{ $errors->has('name') ? 'layui-form-danger' : '' }}">
-                    </div>
-                </div>
-
-                <div class="layui-form-item ">
-                    <label for="password" class="layui-form-label">
-                        密码
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="password" id="password" name="password" value="{{ old('password') }}"
-                               lay-verify="pwd" lay-verType="tips" placeholder="请输入密码，置空为不修改"
-                               autocomplete="off"
-                               class="layui-input {{ $errors->has('password') ? 'layui-form-danger' : '' }}">
                     </div>
                 </div>
 
@@ -68,6 +51,21 @@
                     </label>
                     <div class="layui-input-inline" id="">
                         <div id="role_id" data-roleids="{{ $roleIds }}" data-json="{{ $roles }}"></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item ">
+                    <label for="password" class="layui-form-label">
+                        密码
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="password" id="password" name="password" value="{{ old('password') }}"
+                               lay-verify="pwd" lay-verType="tips" placeholder="请输入密码，置空为不修改"
+                               autocomplete="off"
+                               class="layui-input {{ $errors->has('password') ? 'layui-form-danger' : '' }}">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        6 到 12 个非空格字符
                     </div>
                 </div>
 

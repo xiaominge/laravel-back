@@ -2,27 +2,23 @@
 
 @section('title', config('app.name') . ' - 管理平台 - 添加管理员')
 
+@section('css')
+    <style>
+        body {
+            background-color: #fff;
+        }
+    </style>
+@endsection
+
 @section('top-js')
     <script type="text/javascript" src="{{ asset('X-admin/js/xadmin.js') }}"></script>
 @endsection
 
 @section('content')
-    <style>
-        .layui-form-item .layui-form-label {
-            margin-top: -4px;
-        }
-
-        .layui-table tr td {
-            padding-bottom: 20px;
-        }
-
-        body {
-            background-color: #fff;
-        }
-    </style>
     <div class="layui-fluid" style="">
         <div class="layui-row">
-            <form id="create-form" action="{{ route('admin.admins.store') }}" method="post" class="layui-form">
+            <form id="create-form" action="{{ route('admin.admins.store') }}" method="post"
+                  class="layui-form">
                 @csrf
                 <div class="layui-form-item ">
                     <label for="name" class="layui-form-label">
@@ -41,10 +37,14 @@
                         <span class="x-red">*</span>密码
                     </label>
                     <div class="layui-input-inline">
-                        <input type="password" id="password" name="password" value="{{ old('password') }}"
+                        <input type="password" id="password" name="password"
+                               value="{{ old('password') }}"
                                lay-verify="required|pwd" lay-verType="tips" placeholder="请输入密码"
                                autocomplete="off"
                                class="layui-input {{ $errors->has('password') ? 'layui-form-danger' : '' }}">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        6 到 12 个非空格字符
                     </div>
                 </div>
 
@@ -86,9 +86,8 @@
     <script>
 
         layui.use(['form', 'layer'], function () {
-            $ = layui.jquery;
-            var form = layui.form
-                , layer = layui.layer;
+            var $ = layui.$;
+            var form = layui.form, layer = layui.layer;
 
             var roleJson = $('#role_id').data('json');
             var roleId = xmSelect.render({

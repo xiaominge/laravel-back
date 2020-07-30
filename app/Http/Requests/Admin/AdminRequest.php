@@ -30,10 +30,11 @@ class AdminRequest extends Base
                     'password' => 'nullable|min:6|max:20',
                 ];
                 break;
-            case 'user.admins.password':
+            case 'admin.home.password.do-change':
                 return [
-                    'old_password' => 'required',
+                    'old_password' => 'required|min:6|max:20',
                     'password' => 'required|min:6|max:20',
+                    'confirm_password' => 'required|min:6|max:20',
                 ];
                 break;
         }
@@ -67,12 +68,17 @@ class AdminRequest extends Base
                     'password.max' => '密码最多 20 个字符',
                 ];
                 break;
-            case 'admin.admins.password':
+            case 'admin.home.password.do-change':
                 return [
                     'old_password.required' => '旧密码是必填项',
                     'password.required' => '新密码是必填项',
+                    'confirm_password.required' => '确认密码是必填项',
+                    'old_password.min' => '旧密码最少 6 个字符',
                     'password.min' => '新密码最少 6 个字符',
+                    'confirm_password.min' => '确认密码最少 6 个字符',
+                    'old_password.max' => '旧密码最多 20 个字符',
                     'password.max' => '新密码最多 20 个字符',
+                    'confirm_password.max' => '确认密码最多 20 个字符',
                 ];
                 break;
         }
