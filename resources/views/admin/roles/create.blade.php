@@ -17,7 +17,7 @@
 @section('content')
     <div class="layui-fluid" style="">
         <div class="layui-row">
-            <form id="create-form" action="{{ route('admin.roles.store') }}" method="post" class="layui-form ">
+            <form id="role-create-form" action="{{ route('admin.roles.store') }}" method="post" class="layui-form ">
                 @csrf
                 <div class="layui-form-item ">
                     <div class="layui-inline">
@@ -28,7 +28,7 @@
                             <input type="text" id="name" name="name" value="{{ old('name') }}"
                                    lay-verType="tips" lay-verify="name" placeholder="请输入角色名称"
                                    autocomplete="off"
-                                   class="layui-input {{ $errors->has('name') ? 'layui-form-danger' : '' }}">
+                                   class="layui-input">
                         </div>
 
                         <label for="key" class="layui-form-label">
@@ -38,7 +38,7 @@
                             <input type="text" id="key" name="key" value="{{ old('key') }}"
                                    lay-verType="tips" lay-verify="key"
                                    autocomplete="off" placeholder="请输入角色 key"
-                                   class="layui-input {{ $errors->has('key') ? 'layui-form-danger' : '' }}">
+                                   class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                     <div class="layui-input-block">
                         <textarea lay-verType="tips" lay-verify="description" placeholder="请输入角色描述" id="description"
                                   name="description"
-                                  class="layui-textarea {{ $errors->has('description') ? 'layui-form-danger' : '' }}">{{ old('description') }}</textarea>
+                                  class="layui-textarea">{{ old('description') }}</textarea>
                     </div>
                 </div>
 
@@ -116,9 +116,8 @@
 @section('bottom-js')
     <script>
         layui.use(['form', 'layer'], function () {
-            $ = layui.jquery;
-            var form = layui.form
-                , layer = layui.layer;
+            var $ = layui.jquery;
+            var form = layui.form, layer = layui.layer;
 
             form.verify({
                 name: function (value) {
@@ -157,7 +156,7 @@
             // 监听提交
             form.on('submit(add)', function (data) {
                 sendAjax({
-                    'url': $('#create-form').attr('action'),
+                    'url': $('#role-create-form').attr('action'),
                     'data': data.field,
                 });
                 return false;

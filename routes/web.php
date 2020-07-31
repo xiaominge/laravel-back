@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -40,6 +42,8 @@ Route::group(
         // 修改账号密码
         Route::get('password', 'HomeController@changePassword')->name('home.password.change');
         Route::put('password', 'HomeController@doChangePassword')->name('home.password.do-change');
+
+        Route::get('error', 'ErrorController@index')->name('error');
 
         // 用户角色
         Route::get('roles', 'RoleController@index')->name('roles.index');

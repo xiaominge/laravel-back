@@ -31,7 +31,7 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <button class="layui-btn"
-                                onclick="xadmin.open('添加权限','{{ split_url(route('admin.permissions.create'))[1] }}', 750, 470)">
+                                onclick="xadmin.open('添加权限','{{ split_url(route('admin.permissions.create'))[1] }}', 530, 410)">
                             <i class="layui-icon layui-icon-add-circle"></i>添加
                         </button>
                     </div>
@@ -63,13 +63,13 @@
                                         <td class="td-manage">
                                             <a title="编辑"
                                                data-url="{{ split_url(route('admin.permissions.edit', ['id' => $permission->id]))[1] }}"
-                                               onclick="editRole(this)"
+                                               onclick="editPermission(this)"
                                                href="javascript:;">
                                                 <i class="layui-icon">&#xe642;</i>
                                             </a>
                                             <a title="删除"
                                                data-url="{{ route('admin.permissions.destroy', $permission->id) }}"
-                                               onclick="delRole(this)" href="javascript:;">
+                                               onclick="delPermission(this)" href="javascript:;">
                                                 <i class="layui-icon">&#xe640;</i>
                                             </a>
                                         </td>
@@ -94,7 +94,7 @@
 
         function editPermission(obj) {
             var obj = $(obj);
-            xadmin.open('编辑', obj.data('url'), 750, 470);
+            xadmin.open('编辑', obj.data('url'), 530, 410);
         }
 
         function delPermission(obj) {

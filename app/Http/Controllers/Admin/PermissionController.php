@@ -39,14 +39,13 @@ class PermissionController extends Controller
             'description' => $request->description,
             'icon' => $request->icon ?? '',
             'pid' => $request->pid,
+            'sort' => $request->sort ?? '0',
             'route' => $request->route ?? '',
             'created_at' => time(),
             'updated_at' => time(),
         ];
         repository()->permission->m()->create($data);
-        session()->flash('status', '创建成功');
-
-        return redirect()->route('admin.permissions.index');
+        return user_business_handler()->success('', '权限创建成功');
     }
 
     public function edit(Request $request, $id)
@@ -54,9 +53,18 @@ class PermissionController extends Controller
         try {
             $permission = repository()->permission->findById($id);
             $permissions = repository()->permission->allFormatPermissions();
-            return view('admin.permissions.edit', compact('permission', 'permissions'));
+            $permissions = collect($permissions)->map(function ($item) {
+                return (object)$item;
+            });
+            return view('admin.permissions.edit')
+                ->with('permission', $permission)
+                ->with('permissions', $permissions);
         } catch (\Exception $e) {
-            return back()->withErrors($e->getMessage());
+            return redirect()
+                ->route('admin.error')
+                ->withErrors([
+                    'msg' => $e->getMessage(),
+                ]);
         }
     }
 
@@ -81,20 +89,20 @@ class PermissionController extends Controller
         try {
             // 检测此权限有没有在被使用
             $permission = repository()->permission->findById($id);
-            $roleIds = $permission->roles()->pluck('roles.id')->toArray();
+            $roleIds = $permission->roles->pluck('id')->toArray();
             if ($roleIds) {
-                return user_business_handler()->fail('无法删除, 此权限正在被使用');
+                return user_business_handler()->fail('权限正在被使用，无法删除');
             }
 
             $allPermission = repository()->permission->all();
-            $permissions = repository()->role->getPermissionsList([$permission->id], $allPermission);
-
+            $permissions = repository()->permission->getPermissionsList([$permission->id], $allPermission);
             repository()->permission->m()
                 ->whereIn('id', $permissions)
                 ->update(['deleted_at' => time()]);
-            return user_business_handler()->success();
+
+            return user_business_handler()->success('', '权限删除成功');
         } catch (BusinessException $e) {
-            return user_business_handler()->fail('删除失败');
+            return user_business_handler()->fail('权限删除失败');
         }
     }
 

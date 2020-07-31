@@ -17,7 +17,7 @@
 @section('content')
     <div class="layui-fluid" style="">
         <div class="layui-row">
-            <form id="create-form" action="{{ route('admin.admins.store') }}" method="post"
+            <form id="admin-create-form" action="{{ route('admin.admins.store') }}" method="post"
                   class="layui-form">
                 @csrf
                 <div class="layui-form-item ">
@@ -28,7 +28,7 @@
                         <input type="text" id="name" name="name" value="{{ old('name') }}"
                                lay-verify="required|name" lay-verType="tips" placeholder="请输入名称"
                                autocomplete="off"
-                               class="layui-input {{ $errors->has('name') ? 'layui-form-danger' : '' }}">
+                               class="layui-input">
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
                                value="{{ old('password') }}"
                                lay-verify="required|pwd" lay-verType="tips" placeholder="请输入密码"
                                autocomplete="off"
-                               class="layui-input {{ $errors->has('password') ? 'layui-form-danger' : '' }}">
+                               class="layui-input">
                     </div>
                     <div class="layui-form-mid layui-word-aux">
                         6 到 12 个非空格字符
@@ -56,7 +56,7 @@
                         <input type="text" id="email" name="email" value="{{ old('email') }}"
                                lay-verify="required|email" lay-verType="tips"
                                autocomplete="off" placeholder="请输入邮箱"
-                               class="layui-input {{ $errors->has('email') ? 'layui-form-danger' : '' }}">
+                               class="layui-input">
                     </div>
                 </div>
 
@@ -119,7 +119,7 @@
             // 监听提交
             form.on('submit(add)', function (formData) {
                 sendAjax({
-                    'url': $('#create-form').attr('action'),
+                    'url': $('#admin-create-form').attr('action'),
                     'data': formData.field,
                     'closeLayerCallBack': function (index) {
                         layer.closeAll();

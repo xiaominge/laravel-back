@@ -29,7 +29,7 @@
                         <input type="text" id="name" name="name" value="{{ old('name', $admin->name) }}"
                                lay-verify="required|name" lay-verType="tips" placeholder="请输入名称"
                                autocomplete="off"
-                               class="layui-input {{ $errors->has('name') ? 'layui-form-danger' : '' }}">
+                               class="layui-input">
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
                         <input type="text" id="email" name="email" value="{{ old('email' , $admin->email) }}"
                                lay-verify="required|email" lay-verType="tips"
                                autocomplete="off" placeholder="请输入邮箱"
-                               class="layui-input {{ $errors->has('email') ? 'layui-form-danger' : '' }}">
+                               class="layui-input">
                     </div>
                 </div>
 
@@ -62,7 +62,7 @@
                         <input type="password" id="password" name="password" value="{{ old('password') }}"
                                lay-verify="pwd" lay-verType="tips" placeholder="请输入密码，置空为不修改"
                                autocomplete="off"
-                               class="layui-input {{ $errors->has('password') ? 'layui-form-danger' : '' }}">
+                               class="layui-input">
                     </div>
                     <div class="layui-form-mid layui-word-aux">
                         6 到 12 个非空格字符
@@ -85,9 +85,8 @@
     <script>
 
         layui.use(['form', 'layer'], function () {
-            $ = layui.jquery;
-            var form = layui.form
-                , layer = layui.layer;
+            var $ = layui.jquery;
+            var form = layui.form, layer = layui.layer;
 
             var roleJson = $('#role_id').data('json');
             var roleId = xmSelect.render({

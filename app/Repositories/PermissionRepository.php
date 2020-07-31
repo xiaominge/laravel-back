@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\BusinessException;
 use App\Foundation\Repository\Repository;
 use App\Models\Permission;
 
@@ -11,6 +12,15 @@ class PermissionRepository extends Repository
     public function model()
     {
         return Permission::class;
+    }
+
+    public function findById($id)
+    {
+        $model = $this->m()->where('deleted_at', 0)->find($id);
+        if (!$model) {
+            throw new BusinessException('权限不存在或已被删除');
+        }
+        return $model;
     }
 
     public function all()
@@ -80,4 +90,48 @@ class PermissionRepository extends Repository
         return $result;
     }
 
+    /**
+     * 根据现有的权限获得所有下级权限
+     *
+     * @param $needs
+     * @param $permissions
+     *
+     * @return array
+     */
+    public function getPermissionsList($needs, $permissions)
+    {
+        global $list;
+        foreach ($needs as $value) {
+            $list[] = (int)$value;
+            $_temp = $permissions->where('pid', $value)->pluck('id')->toArray();
+            if ($_temp) {
+                $this->getPermissionsList($_temp, $permissions);
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * 根据现有的权限id获取上级权限
+     *
+     * @param $needs
+     * @param $permissions
+     *
+     * @return array
+     */
+    public function getSuperiorPermissions($needs, $permissions)
+    {
+//        dd($needs, $permissions);
+        global $list;
+        foreach ($needs as $value) {
+            $list[] = (int)$value;
+            $_temp = $permissions->where('id', $value)->pluck('pid')->toArray();
+            if (array_first($_temp) != 0) {
+                $this->getSuperiorPermissions($_temp, $permissions);
+            }
+        }
+
+        return $list;
+    }
 }

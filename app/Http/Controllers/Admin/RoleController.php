@@ -43,7 +43,7 @@ class RoleController extends Controller
             $role = repository()->role->m()->create($data);
 
             $permissions = repository()->permission->m()->select(['id', 'pid'])->get();
-            $permissions = repository()->role->getSuperiorPermissions($request->permissions, $permissions);
+            $permissions = repository()->permission->getSuperiorPermissions($request->permissions, $permissions);
             $permissions = array_unique($permissions);
             $role->permissions()->attach($permissions, [
                 'created_at' => time(),
@@ -69,7 +69,11 @@ class RoleController extends Controller
         try {
             $role = repository()->role->findById($id);
         } catch (BusinessException $e) {
-            return user_business_handler()->fail($e->getMessage());
+            return redirect()
+                ->route('admin.error')
+                ->withErrors([
+                    'msg' => $e->getMessage(),
+                ]);
         }
         $currentPermissions = $role->permissions()->pluck('permissions.id')->toArray();
         $currentPermissions = implode(',', $currentPermissions);
@@ -96,7 +100,7 @@ class RoleController extends Controller
             'updated_at' => time(),
         ];
         $permissions = repository()->permission->all();
-        $permissions = repository()->role->getSuperiorPermissions($request->permissions, $permissions);
+        $permissions = repository()->permission->getSuperiorPermissions($request->permissions, $permissions);
         $permissions = array_unique($permissions);
         $addPermissions = [];
         foreach ($permissions as $p) {
@@ -117,7 +121,7 @@ class RoleController extends Controller
         try {
             // 检测此角色有没有在使用
             $role = repository()->role->findById($id);
-            $adminIds = $role->admins()->pluck('admins.id')->toArray();
+            $adminIds = $role->admins->pluck('id')->toArray();
             if ($adminIds) {
                 return user_business_handler()->fail('角色正在被使用，无法删除');
             }

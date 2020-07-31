@@ -14,7 +14,11 @@ class Permission extends Model
         'description',
         'route',
         'icon',
-        'pid'
+        'pid',
+        'sort',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     public function roles()

@@ -23,7 +23,11 @@ class AdminController extends Controller
         try {
             $role = repository()->role->findById($roleId);
         } catch (BusinessException $e) {
-            return user_business_handler()->fail($e->getMessage());
+            return redirect()
+                ->route('admin.error')
+                ->withErrors([
+                    'msg' => $e->getMessage(),
+                ]);
         }
         $limit = $request->get('limit', 20);
         $admins = $role->admins()->paginate($limit);
@@ -88,18 +92,28 @@ class AdminController extends Controller
 
     public function edit($id)
     {
-        $admin = repository()->admin->findById($id);
-        $roleIds = $admin->roles->pluck('id')->toJson();
-        $roles = [];
-        $rolesCollect = repository()->role->getAdminRoles();
-        foreach ($rolesCollect as $role) {
-            $roles[] = [
-                'value' => $role['id'],
-                'name' => $role['name'],
-            ];
+        try {
+            $admin = repository()->admin->findById($id);
+            $roleIds = $admin->roles->pluck('id')->toJson();
+            $roles = [];
+            $rolesCollect = repository()->role->getAdminRoles();
+            foreach ($rolesCollect as $role) {
+                $roles[] = [
+                    'value' => $role['id'],
+                    'name' => $role['name'],
+                ];
+            }
+            return view('admin.admins.edit')
+                ->with('admin', $admin)
+                ->with('roleIds', $roleIds)
+                ->with('roles', json_encode($roles));
+        } catch (BusinessException $e) {
+            return redirect()
+                ->route('admin.error')
+                ->withErrors([
+                    'msg' => $e->getMessage(),
+                ]);
         }
-        return view('admin.admins.edit', compact('admin', 'roleIds'))
-            ->with('roles', json_encode($roles));
     }
 
     public function update(AdminRequest $request, $id)

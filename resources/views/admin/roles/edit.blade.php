@@ -30,7 +30,7 @@
                             <input type="text" id="name" name="name" value="{{ old('name', $role->name) }}"
                                    lay-verType="tips" lay-verify="name" placeholder="请输入角色名称"
                                    autocomplete="off"
-                                   class="layui-input {{ $errors->has('name') ? 'layui-form-danger' : '' }}">
+                                   class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                     <div class="layui-input-block">
                         <textarea lay-verType="tips" lay-verify="description" placeholder="请输入角色描述" id="description"
                                   name="description"
-                                  class="layui-textarea {{ $errors->has('description') ? 'layui-form-danger' : '' }}">{{ old('description', $role->description) }}</textarea>
+                                  class="layui-textarea">{{ old('description', $role->description) }}</textarea>
                     </div>
                 </div>
 
@@ -121,9 +121,8 @@
 @section('bottom-js')
     <script>
         layui.use(['form', 'layer'], function () {
-            $ = layui.jquery;
-            var form = layui.form
-                , layer = layui.layer;
+            var $ = layui.jquery;
+            var form = layui.form, layer = layui.layer;
 
             form.verify({
                 name: function (value) {
