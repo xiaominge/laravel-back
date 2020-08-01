@@ -75,7 +75,7 @@ class RoleController extends Controller
                     'msg' => $e->getMessage(),
                 ]);
         }
-        $currentPermissions = $role->permissions()->pluck('permissions.id')->toArray();
+        $currentPermissions = $role->permissions->pluck('id')->toArray();
         $currentPermissions = implode(',', $currentPermissions);
         return view('admin.roles.edit', compact('role', 'permissions', 'currentPermissions'));
     }

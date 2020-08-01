@@ -24,6 +24,7 @@
     <div class="layui-fluid" style="">
         <div class="layui-row">
             <form id="permission-edit-form" class="layui-form"
+                  lay-filter="permission-edit-form"
                   action="{{ route('admin.permissions.update', $permission->id) }}"
                   method="post">
                 @csrf
@@ -64,14 +65,12 @@
                                 lay-search>
                             <option value="">请选择父级权限</option>
                             <option value="0"
-                                    @if (old('pid', $permission->pid) == 0) selected @endif>顶级权限
+                            @if (old('pid', $permission->pid) == 0)  @endif>顶级权限
                             </option>
                             @foreach($permissions as $p)
                                 <option
                                     value="{{ $p->id }}"
-                                    @if ($p->id === old('pid', $permission->pid))
-                                    selected="selected"
-                                    @endif
+                                @if ($p->id === old('pid', $permission->pid))  @endif
                                 >{{ str_repeat('——', $p->level) . $p->name }}</option>
                             @endforeach
                         </select>
@@ -130,6 +129,7 @@
             var $ = layui.jquery;
             var form = layui.form, layer = layui.layer;
             form.render(null, 'permission-edit-form');
+
             form.verify({
                 name: function (value) {
                     if (value.length < 1) {
@@ -179,7 +179,7 @@
             });
 
             // 监听表单提交
-            form.on('submit(add)', function (data) {
+            form.on('submit(edit)', function (data) {
                 sendAjax({
                     'url': $('#permission-edit-form').attr('action'),
                     'data': data.field,
@@ -189,6 +189,7 @@
 
             // 监听父级权限的 select 事件
             form.on('select(permission_select)', function (data) {
+                console.log(data.value);
                 if (data.value === '0') {
                     // 顶级权限 需要图标，移除图标输入框的隐藏类名
                     $('#icon').removeClass('layui-hide');
@@ -204,8 +205,16 @@
                     $('#permission-route').attr('lay-verify', 'required|route');
                     $('label[for="route"]').html('<span class="x-red">*</span>权限路由');
                 }
+                form.render(null, 'permission-edit-form');
             });
 
+            $(function () {
+                var permissionSelectVal = "{{ $permission->pid }}";
+                $('select[name="pid"]')
+                    .siblings("div.layui-form-select")
+                    .find('dl dd[lay-value="' + permissionSelectVal + '"]')
+                    .click();
+            });
         });
     </script>
 @endsection

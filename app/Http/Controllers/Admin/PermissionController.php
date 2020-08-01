@@ -70,18 +70,24 @@ class PermissionController extends Controller
 
     public function update(PermissionRequest $request, $id)
     {
-        $data = [
-            'name' => $request->name,
-            'description' => $request->description,
-            'icon' => $request->icon ?? '',
-            'pid' => $request->pid,
-            'route' => $request->route ?? '',
-            'add_time' => time()
-        ];
+        try {
+            $permission = repository()->permission->findById($id);
 
-        repository()->permission->m()->where('id', $id)->update($data);
-        session()->flash('status', '更新成功');
-        return redirect()->route('admin.permissions.index');
+            $data = [
+                'name' => $request->name,
+                'description' => $request->description,
+                'icon' => $request->icon ?? '',
+                'pid' => $request->pid,
+                'route' => $request->route ?? '',
+                'sort' => $request->sort ?? '0',
+                'updated_at' => time(),
+            ];
+            $permission->update($data);
+
+            return user_business_handler()->success('', '权限更新成功');
+        } catch (\Exception $e) {
+            return user_business_handler()->fail($e->getMessage());
+        }
     }
 
     public function destroy($id)
