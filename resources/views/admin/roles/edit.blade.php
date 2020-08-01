@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', config('app.name') . ' - 管理平台 - 角色编辑')
+@section('title', config('app.name') . ' - 管理平台 - 编辑角色')
 
 @section('css')
     <style>

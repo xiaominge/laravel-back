@@ -4,7 +4,6 @@
 
 ```bash
 git clone git@gitee.com:1337991560/laravel-back.git
-chmod -R 777 laravel-back
 cd laravel-back
 ```
 

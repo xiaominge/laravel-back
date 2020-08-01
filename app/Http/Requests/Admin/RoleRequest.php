@@ -40,10 +40,10 @@ class RoleRequest extends BaseRequest
                     'name.required' => '请输入角色名称',
                     'name.min' => '角色名称最小 2 个字符',
                     'name.max' => '角色名称最大 45 个字符',
-                    'key.required' => '请输入角色 key',
-                    'key.max' => '角色 key 最大 16 个字符',
+                    'key.required' => '请输入角色标识',
+                    'key.max' => '角色标识最大 16 个字符',
                     'description.required' => '请输入角色描述',
-                    'description.max' => '角色描述 最大 255 个字符',
+                    'description.max' => '角色描述最大 255 个字符',
                     'permissions.required' => '请选择角色拥有的权限',
                 ];
                 break;
@@ -53,10 +53,10 @@ class RoleRequest extends BaseRequest
                     'name.required' => '请输入角色名称',
                     'name.min' => '角色名称最小 2 个字符',
                     'name.max' => '角色名称最大 45 个字符',
-                    'key.required' => '请输入角色 key',
-                    'key.max' => '角色 key 最大 16 个字符',
+                    'key.required' => '请输入角色标识',
+                    'key.max' => '角色标识最大 16 个字符',
                     'description.required' => '请输入角色描述',
-                    'description.max' => '角色描述 最大 255 个字符',
+                    'description.max' => '角色描述最大 255 个字符',
                     'permissions.required' => '请选择角色拥有的权限',
                 ];
                 break;

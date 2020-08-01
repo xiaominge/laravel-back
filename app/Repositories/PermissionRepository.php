@@ -40,7 +40,7 @@ class PermissionRepository extends Repository
 
     public function allFormatPermissions()
     {
-        $permissions = $this->all()->toArray();
+        $permissions = $this->all()->keyBy('id')->toArray();
         return $permissions ? $this->formatPermissions($permissions) : [];
     }
 
@@ -53,12 +53,15 @@ class PermissionRepository extends Repository
      *
      * @return array
      */
-    private function formatPermissions($permissions, $pid = 0, $level = 0)
+    private function formatPermissions($permissions, $pid = 0, $level = 1)
     {
         static $result;
         foreach ($permissions as $permission) {
             if ($permission['pid'] === $pid) {
-                $result[] = array_merge($permission, ['level' => $level]);
+                $result[] = array_merge($permission, [
+                    'level' => $level,
+                    'parentName' => $permissions[$pid]['name'] ?? 'ROOT权限',
+                ]);
                 $this->formatPermissions($permissions, $permission['id'], $level + 1);
             }
         }

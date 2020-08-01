@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', config('app.name') . ' - 管理平台 - 权限添加')
+@section('title', config('app.name') . ' - 管理平台 - 添加权限')
 
 @section('css')
     <style>
@@ -21,7 +21,7 @@
 @section('content')
     <div class="layui-fluid" style="">
         <div class="layui-row">
-            <form id="permission-create-form"
+            <form id="permission-create-form" lay-filter="permission-create-form"
                   action="{{ route('admin.permissions.store') }}" method="post"
                   class="layui-form">
                 @csrf
@@ -59,14 +59,14 @@
                                 lay-verify="pid" lay-verType="tips"
                                 lay-search>
                             <option value="">请选择父级权限</option>
-                            <option value="0">顶级权限</option>
+                            <option value="0">ROOT权限</option>
                             @foreach($permissions as $p)
                                 <option
                                     value="{{ $p->id }}"
                                     @if ($p->id === old('pid'))
                                     selected="selected"
                                     @endif
-                                >{{ str_repeat('——', $p->level) . $p->name }}</option>
+                                >{!! str_repeat("&nbsp;", ($p->level * 6)) . "┝&nbsp;" . $p->name !!}</option>
                             @endforeach
                         </select>
                     </div>
@@ -199,6 +199,7 @@
                     $('#permission-route').attr('lay-verify', 'required|route');
                     $('label[for="route"]').html('<span class="x-red">*</span>权限路由');
                 }
+                form.render(null, 'permission-create-form');
             });
 
         });

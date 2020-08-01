@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', config('app.name') . ' - 管理平台 - 权限编辑')
+@section('title', config('app.name') . ' - 管理平台 - 编辑权限')
 
 @section('css')
     <style>
@@ -65,13 +65,13 @@
                                 lay-search>
                             <option value="">请选择父级权限</option>
                             <option value="0"
-                            @if (old('pid', $permission->pid) == 0)  @endif>顶级权限
+                            @if (old('pid', $permission->pid) == 0)  @endif>ROOT权限
                             </option>
                             @foreach($permissions as $p)
                                 <option
                                     value="{{ $p->id }}"
                                 @if ($p->id === old('pid', $permission->pid))  @endif
-                                >{{ str_repeat('——', $p->level) . $p->name }}</option>
+                                >{!! str_repeat("&nbsp;", ($p->level * 6)) . "┝&nbsp;" . $p->name !!}</option>
                             @endforeach
                         </select>
                     </div>

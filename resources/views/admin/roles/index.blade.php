@@ -43,7 +43,7 @@
                                     <th style="width: 50px">ID</th>
                                     <th style="width: 100px">角色名</th>
                                     <th style="width: 135px">描述</th>
-                                    <th style="width: 100px">key</th>
+                                    <th style="width: 100px">标识</th>
                                     <th style="width: 120px">创建时间</th>
                                     <th style="width: 120px">修改时间</th>
                                     <th style="width: 60px">操作</th>

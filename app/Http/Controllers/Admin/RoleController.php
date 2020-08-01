@@ -129,9 +129,9 @@ class RoleController extends Controller
             // 解除 角色和权限 之间的关系
             DB::beginTransaction();
             $role->permissions()->update(['role_permission.deleted_at' => time()]);
-            $role->deleted_at = time();
-            $role->save();
+            $role->update(['deleted_at' => time()]);
             DB::commit();
+
             return user_business_handler()->success('', '角色删除成功');
         } catch (\Exception $e) {
             DB::rollBack();

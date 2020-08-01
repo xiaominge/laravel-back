@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', config('app.name') . ' - 管理平台 - 角色添加')
+@section('title', config('app.name') . ' - 管理平台 - 添加角色')
 
 @section('css')
     <style>
@@ -32,12 +32,12 @@
                         </div>
 
                         <label for="key" class="layui-form-label">
-                            <span class="x-red">*</span>角色 key
+                            <span class="x-red">*</span>角色标识
                         </label>
                         <div class="layui-input-inline">
                             <input type="text" id="key" name="key" value="{{ old('key') }}"
                                    lay-verType="tips" lay-verify="key"
-                                   autocomplete="off" placeholder="请输入角色 key"
+                                   autocomplete="off" placeholder="请输入角色标识"
                                    class="layui-input">
                         </div>
                     </div>
@@ -103,7 +103,7 @@
 
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit="" lay-filter="add">增加</button>
+                        <button class="layui-btn" lay-submit="" lay-filter="add">保存</button>
                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
 @endsection
 
 @section('bottom-js')
-    <script>
+    <script type="text/javascript">
         layui.use(['form', 'layer'], function () {
             var $ = layui.jquery;
             var form = layui.form, layer = layui.layer;
@@ -130,10 +130,10 @@
                 }
                 , key: function (value) {
                     if (value.length < 1) {
-                        return '请输入角色 key';
+                        return '请输入角色标识';
                     }
                     if (value.length > 16) {
-                        return '角色 key 最多 16 个字符';
+                        return '角色标识最多 16 个字符';
                     }
                 }
                 , description: function (value) {

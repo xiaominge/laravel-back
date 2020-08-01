@@ -142,7 +142,7 @@ class AdminController extends Controller
             $admin->roles()->sync($addRoles);
             DB::commit();
 
-            return user_business_handler()->success('', '管理员修改成功');
+            return user_business_handler()->success('', '管理员更新成功');
         } catch (\Exception $e) {
             DB::rollBack();
             return user_business_handler()->fail($e->getMessage());

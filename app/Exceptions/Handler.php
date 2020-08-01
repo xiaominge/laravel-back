@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
     {
         return response()->json([
             'code' => 0,
-            'message' => collect($exception->errors())->first()[0],
+            'message' => current($exception->errors())[0],
             'data' => $exception->errors(),
         ], $exception->status);
     }
