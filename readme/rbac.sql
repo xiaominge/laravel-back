@@ -16,8 +16,8 @@ LOCK TABLES `admins` WRITE;
 
 INSERT INTO `admins` (`id`, `name`, `password`, `email`, `remember_token`, `created_at`, `updated_at`, `deleted_at`)
 VALUES
-    (1,'admin','$2y$10$bzD2k32q050snhe5kbjP/.lBgV4CpqEf8spzZMm5XOb.l.DXNzif.','xiaoxi@qq.com','gdIg4uQBzVgJHTbQexBABO4Gz3VyXenWHYq1sDJbRft3lKit77sn5tfYw4cV',1553752888,1553752888,0),
-    (2,'xiaoxi','$2y$10$bzD2k32q050snhe5kbjP/.lBgV4CpqEf8spzZMm5XOb.l.DXNzif.','xiaoxi@qq.com',NULL,1554265387,1554265387,0);
+    (1,'admin','$2y$10$l25yEwI66Ej7x7M5nDsIou68LF./S9ZKOqAjDPzjhi8pk74a3J70C','xiaoxi@qq.com','gdIg4uQBzVgJHTbQexBABO4Gz3VyXenWHYq1sDJbRft3lKit77sn5tfYw4cV',1553752888,1553752888,0),
+    (2,'xiaoxi','$2y$10$l25yEwI66Ej7x7M5nDsIou68LF./S9ZKOqAjDPzjhi8pk74a3J70C','xiaoxi@qq.com',NULL,1554265387,1554265387,0);
 
 UNLOCK TABLES;
 
