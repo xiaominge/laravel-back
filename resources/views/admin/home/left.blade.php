@@ -8,7 +8,7 @@
                        lay-href="{{ split_url(route($topMenu['route']))[1] }}"
                         @endif
                     >
-                        <i class="layui-icon layui-icon-{{ $topMenu['icon'] }}" lay-tips="{{ $topMenu['name'] }}"></i>
+                        <i class="layui-icon {{ $topMenu['icon'] }}" lay-tips="{{ $topMenu['name'] }}"></i>
                         <cite>{{ $topMenu['name'] }}</cite>
                         <i class="iconfont nav_right">&#xe697;</i>
                     </a>

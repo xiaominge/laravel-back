@@ -11,7 +11,6 @@
             top.location.href = window.location.href;
         }
     </script>
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 @endsection
 
 @section('content')
@@ -36,36 +35,34 @@
 
 @section('bottom-js')
     <script>
-        $(function () {
-            layui.use('form', function () {
-                var form = layui.form;
+        layui.use('form', function () {
+            var form = layui.form;
 
-                form.verify({
-                    name: function (value) {
-                        if (value.length < 2) {
-                            return '用户名至少要 2 个字符';
+            form.verify({
+                name: function (value) {
+                    if (value.length < 2) {
+                        return '用户名至少要 2 个字符';
+                    }
+                },
+                pwd: [/^[\S]{6,12}$/, '密码必须6到20位'],
+            });
+
+            form.on('submit(login)', function (formData) {
+                sendAjax({
+                    'url': "{{ route('admin.login') }}",
+                    'data': formData.field,
+                    'successCallBack': function (data) {
+                        if (data.code == 2000000) {
+                            layer.msg(data.message, {icon: 6, time: 1000}, function () {
+                                location.href = "{{ route('admin.home') }}";
+                            });
+                        } else {
+                            layer.msg(data.message, {icon: 5, time: 3000});
                         }
                     },
-                    pwd: [/^[\S]{6,12}$/, '密码必须6到20位'],
                 });
 
-                form.on('submit(login)', function (formData) {
-                    sendAjax({
-                        'url': "{{ route('admin.login') }}",
-                        'data': formData.field,
-                        'successCallBack': function (data) {
-                            if (data.code == 2000000) {
-                                layer.msg(data.message, {icon: 6, time: 1000}, function () {
-                                    location.href = "{{ route('admin.home') }}";
-                                });
-                            } else {
-                                layer.msg(data.message, {icon: 5, time: 3000});
-                            }
-                        },
-                    });
-
-                    return false;
-                });
+                return false;
             });
         });
     </script>

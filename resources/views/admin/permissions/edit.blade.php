@@ -29,6 +29,20 @@
                   method="post">
                 @csrf
                 @method('PUT')
+
+                <div class="layui-form-item">
+                    <label for="id" class="layui-form-label">
+                        <span class="x-red">*</span>ID
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="id" name="id"
+                               value="{{ old('id', $permission->id) }}"
+                               lay-verType="tips" lay-verify="required"
+                               autocomplete="off" disabled
+                               class="layui-input">
+                    </div>
+                </div>
+
                 <div class="layui-form-item">
                     <label for="name" class="layui-form-label">
                         <span class="x-red">*</span>权限名称
@@ -81,11 +95,11 @@
                     <label for="icon" class="layui-form-label">
                         <span class="x-red">*</span>菜单图标
                     </label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="icon" value="{{ old('icon', $permission->icon) }}"
+                    <div class="layui-input-block">
+                        <input type="text" id="iconPicker" name="icon"
                                lay-verify="" lay-verType="tips"
-                               placeholder="请输入菜单图标" autocomplete="off"
-                               class="layui-input">
+                               lay-filter="iconPicker"
+                               class="layui-hide">
                     </div>
                 </div>
 
@@ -125,10 +139,25 @@
 
 @section('bottom-js')
     <script>
-        layui.use(['form', 'layer'], function () {
+        layui.use(['form', 'layer', 'iconPicker'], function () {
             var $ = layui.jquery;
+            var iconPicker = layui.iconPicker;
             var form = layui.form, layer = layui.layer;
             form.render(null, 'permission-edit-form');
+
+            iconPicker.render({
+                elem: '#iconPicker',
+                page: false,
+                minHeight: '160',
+                size: 'small',
+            });
+
+            /**
+             * 选中图标 （常用于更新时默认选中图标）
+             * @param filter lay-filter
+             * @param iconName 图标名称，自动识别 fontClass/unicode
+             */
+            iconPicker.checkIcon('iconPicker', '{{ $permission->icon }}');
 
             form.verify({
                 name: function (value) {
@@ -154,6 +183,10 @@
                     if (value.length < 1) {
                         return '请选择父级权限';
                     }
+
+                    if (value == $("#id").val()) {
+                        return '父级权限不能选择本身';
+                    }
                 },
                 route: function (value, item) {
                     if (value.length > 0) {
@@ -167,13 +200,13 @@
                 },
                 icon: function (value, item) {
                     if (value.length <= 0) {
-                        return '请输入菜单图标';
+                        return '请选择菜单图标';
                     }
                     if (value.length < 2) {
                         return '菜单图标最小为 2 个字符';
                     }
-                    if (value.length > 20) {
-                        return '菜单图标最大为 20 个字符';
+                    if (value.length > 45) {
+                        return '菜单图标最大为 45 个字符';
                     }
                 },
             });

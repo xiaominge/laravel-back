@@ -95,9 +95,7 @@
 
 @section('bottom-js')
     <script>
-        layui.use(['form', 'element', 'layer'], function () {
-            var form = layui.form;
-            var layer = layui.layer;
+        layui.use('element', function () {
             var element = layui.element;
             // 监听Tab切换
             element.on('tab(user-role)', function (data) {
@@ -108,7 +106,7 @@
 
         function editAdmin(obj) {
             var obj = $(obj);
-            xadmin.open('编辑', obj.data('url'), 500, 400);
+            xadmin.open('编辑', obj.data('url'), 500, 380);
         }
 
         function delAdmin(obj) {

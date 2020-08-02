@@ -17,7 +17,7 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        .layui-form-item .layui-form-label, .layui-form-mid {
+        .x-admin-sm .layui-form-item .layui-form-label, .x-admin-sm .layui-form-item .layui-form-mid {
             margin-top: -4px;
         }
     </style>
@@ -31,8 +31,14 @@
 <!-- 底部结束 -->
 
 </body>
-<script src="{{ asset('js/own.js') }}"></script>
 <script>
+    layui.config({
+        base: '{{ asset('js/layui') }}' + '/', // 自定义模块加载路径
+    }).extend({
+        xmSelect: 'xm-select/xm-select', // 多选下拉框
+        iconPicker: 'iconPicker/iconPicker', // 图标选择工具
+    });
+
     layui.use('jquery', function () {
         var $ = layui.$;
         $.ajaxSetup({
@@ -42,6 +48,7 @@
         });
     });
 </script>
+<script src="{{ asset('js/own.js') }}"></script>
 @section('bottom-js')
 @show
 </html>

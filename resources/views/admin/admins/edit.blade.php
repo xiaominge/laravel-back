@@ -21,6 +21,20 @@
                   class="layui-form">
                 @csrf
                 @method('PUT')
+
+                <div class="layui-form-item">
+                    <label for="id" class="layui-form-label">
+                        <span class="x-red">*</span>ID
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="id" name="id"
+                               value="{{ old('id', $admin->id) }}"
+                               lay-verType="tips" lay-verify="required"
+                               autocomplete="off" disabled
+                               class="layui-input">
+                    </div>
+                </div>
+
                 <div class="layui-form-item ">
                     <label for="name" class="layui-form-label">
                         <span class="x-red">*</span>名称
@@ -81,10 +95,10 @@
 @endsection
 
 @section('bottom-js')
-    <script type="text/javascript" src="{{ asset('X-admin/js/xm-select.js') }}"></script>
+
     <script>
 
-        layui.use(['form', 'layer'], function () {
+        layui.use(['form', 'layer', 'xmSelect'], function () {
             var $ = layui.jquery;
             var form = layui.form, layer = layui.layer;
 
@@ -92,6 +106,7 @@
             var roleId = xmSelect.render({
                 el: '#role_id',
                 data: roleJson,
+                size: 'mini',
                 tips: '请选择角色',
                 empty: '没有选项可供选择',
                 searchTips: '搜索角色名称',

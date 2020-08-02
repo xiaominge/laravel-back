@@ -82,10 +82,10 @@
 @endsection
 
 @section('bottom-js')
-    <script type="text/javascript" src="{{ asset('X-admin/js/xm-select.js') }}"></script>
+
     <script>
 
-        layui.use(['form', 'layer'], function () {
+        layui.use(['form', 'layer', 'xmSelect'], function () {
             var $ = layui.$;
             var form = layui.form, layer = layui.layer;
 
@@ -93,6 +93,7 @@
             var roleId = xmSelect.render({
                 el: '#role_id',
                 data: roleJson,
+                size: 'mini',
                 tips: '请选择角色',
                 empty: '没有选项可供选择',
                 searchTips: '搜索角色名称',

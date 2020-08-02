@@ -44,7 +44,7 @@
                                     <th style="width:50px">排序</th> <!-- width:50px -->
                                     <th style="width:270px">名称 / 路由</th> <!-- width:270px -->
                                     <th style="width:100px">父级权限</th> <!-- width:65px -->
-                                    <th style="width:65px;text-align: center">菜单图标</th> <!-- width:65px -->
+                                    <th style="width:50px;text-align: center">菜单图标</th> <!-- width:65px -->
                                     <th style="width:250px">创建时间 / 修改时间</th> <!-- width:250px -->
                                     <th style="width:60px">操作</th>
                                 </thead>
@@ -55,10 +55,10 @@
                                     <tr>
                                         <td>{{ $permission->id }}</td>
                                         <td>{{ $permission->sort }}</td>
-                                        <td>{{ $permission->name }} / {{ $permission->route }}</td>
+                                        <td>{{ $permission->name }} / {{ $permission->route ?: '( no route )' }}</td>
                                         <td>{{ $permission->parentName }} ( {{ $permission->pid }} )</td>
                                         <td style="text-align: center">
-                                            <i class="layui-icon layui-icon-{{ $permission->icon }}"></i>
+                                            <i class="layui-icon {{ $permission->icon }}"></i>
                                         </td>
                                         <td>{{ time_format($permission->created_at) }}
                                             / {{ time_format($permission->updated_at) }}</td>
@@ -90,9 +90,6 @@
 
 @section('bottom-js')
     <script>
-        layui.use(['form'], function () {
-            var form = layui.form;
-        });
 
         function editPermission(obj) {
             var obj = $(obj);

@@ -30,7 +30,7 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <button class="layui-btn"
-                                onclick="xadmin.open('添加角色','{{ split_url(route('admin.roles.create'))[1] }}', 750, 470)">
+                                onclick="xadmin.open('添加角色','{{ split_url(route('admin.roles.create'))[1] }}', 700, 410)">
                             <i class="layui-icon layui-icon-add-circle"></i>添加
                         </button>
                     </div>
@@ -88,13 +88,10 @@
 
 @section('bottom-js')
     <script>
-        layui.use(['form'], function () {
-            var form = layui.form;
-        });
 
         function editRole(obj) {
             var obj = $(obj);
-            xadmin.open('编辑', obj.data('url'), 750, 470);
+            xadmin.open('编辑', obj.data('url'), 700, 410);
         }
 
         function delRole(obj) {

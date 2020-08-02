@@ -23,6 +23,18 @@
                 @method('PUT')
                 <div class="layui-form-item ">
                     <div class="layui-inline">
+
+                        <label for="id" class="layui-form-label">
+                            <span class="x-red">*</span>ID
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="id" name="id"
+                                   value="{{ old('id', $role->id) }}"
+                                   lay-verType="tips" lay-verify="required"
+                                   autocomplete="off" disabled
+                                   class="layui-input">
+                        </div>
+
                         <label for="name" class="layui-form-label">
                             <span class="x-red">*</span>角色名称
                         </label>

@@ -76,11 +76,11 @@
                     <label for="icon" class="layui-form-label">
                         <span class="x-red">*</span>菜单图标
                     </label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="icon" value="{{ old('icon') }}"
+                    <div class="layui-input-block">
+                        <input type="text" id="iconPicker" name="icon"
                                lay-verify="" lay-verType="tips"
-                               placeholder="请输入菜单图标" autocomplete="off"
-                               class="layui-input">
+                               lay-filter="iconPicker"
+                               class="layui-hide">
                     </div>
                 </div>
 
@@ -121,9 +121,17 @@
 
 @section('bottom-js')
     <script>
-        layui.use(['form', 'layer'], function () {
+        layui.use(['form', 'layer', 'iconPicker'], function () {
             var $ = layui.jquery;
+            var iconPicker = layui.iconPicker;
             var form = layui.form, layer = layui.layer;
+
+            iconPicker.render({
+                elem: '#iconPicker',
+                page: false,
+                minHeight: '160',
+                size: 'small',
+            });
 
             form.verify({
                 name: function (value) {
@@ -162,13 +170,13 @@
                 },
                 icon: function (value, item) {
                     if (value.length <= 0) {
-                        return '请输入菜单图标';
+                        return '请选择菜单图标';
                     }
                     if (value.length < 2) {
                         return '菜单图标最小为 2 个字符';
                     }
-                    if (value.length > 20) {
-                        return '菜单图标最大为 20 个字符';
+                    if (value.length > 45) {
+                        return '菜单图标最大为 45 个字符';
                     }
                 },
             });
