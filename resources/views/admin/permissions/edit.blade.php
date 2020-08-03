@@ -85,7 +85,7 @@
                                 <option
                                     value="{{ $p->id }}"
                                 @if ($p->id === old('pid', $permission->pid))  @endif
-                                >{!! str_repeat("&nbsp;", ($p->level * 6)) . "┝&nbsp;" . $p->name !!}</option>
+                                >{{ str_repeat("——", ($p->level)) . "" . $p->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -160,7 +160,9 @@
              * @param filter lay-filter
              * @param iconName 图标名称，自动识别 fontClass/unicode
              */
+            @if ($permission->icon)
             iconPicker.checkIcon('iconPicker', '{{ $permission->icon }}');
+            @endif
 
             form.verify({
                 name: function (value) {
@@ -242,6 +244,9 @@
                     $('label[for="route"]').html('<span class="x-red">*</span>权限路由');
                 }
                 form.render(null, 'permission-edit-form');
+                var o = $(".layui-form-select .layui-select-title input");
+                var val = o.val().replace(/——/g, '');
+                o.val(val);
             });
 
             $(function () {

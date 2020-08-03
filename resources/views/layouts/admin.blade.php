@@ -20,6 +20,10 @@
         .x-admin-sm .layui-form-item .layui-form-label, .x-admin-sm .layui-form-item .layui-form-mid {
             margin-top: -4px;
         }
+
+        .x-admin-sm .layui-form-select dl {
+            top: 32px;
+        }
     </style>
     @yield('css')
     @yield('top-js')

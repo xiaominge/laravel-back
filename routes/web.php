@@ -55,7 +55,7 @@ Route::group(
 
         // 权限管理
         Route::get('permissions', 'PermissionController@index')->name('permissions.index');
-        Route::get('permissions/create', 'PermissionController@create')->name('permissions.create');
+        Route::get('permissions/create/{pid?}', 'PermissionController@create')->name('permissions.create');
         Route::post('permissions', 'PermissionController@store')->name('permissions.store');
         Route::get('permissions/{id}/edit', 'PermissionController@edit')->name('permissions.edit');
         Route::put('permissions/{id}', 'PermissionController@update')->name('permissions.update');

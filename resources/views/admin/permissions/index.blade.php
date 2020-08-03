@@ -34,6 +34,12 @@
                                 onclick="xadmin.open('添加权限','{{ split_url(route('admin.permissions.create'))[1] }}', 530, 410)">
                             <i class="layui-icon layui-icon-add-circle"></i>添加
                         </button>
+                        <button class="layui-btn" data-action="expand">
+                            <i class="layui-icon "></i>展开
+                        </button>
+                        <button class="layui-btn" data-action="collapse">
+                            <i class="layui-icon "></i>收起
+                        </button>
                     </div>
                     <div class="layui-card-body">
                         <div class="layui-table-overflow">
@@ -42,20 +48,25 @@
                                 <tr>
                                     <th style="width:50px">ID</th> <!-- width:50px -->
                                     <th style="width:50px">排序</th> <!-- width:50px -->
-                                    <th style="width:270px">名称 / 路由</th> <!-- width:270px -->
+                                    <th style="width:328px">名称 / 路由</th> <!-- width:270px -->
                                     <th style="width:100px">父级权限</th> <!-- width:65px -->
                                     <th style="width:50px;text-align: center">菜单图标</th> <!-- width:65px -->
                                     <th style="width:250px">创建时间 / 修改时间</th> <!-- width:250px -->
                                     <th style="width:60px">操作</th>
                                 </thead>
-                                <tbody class="">
+                                <tbody class="x-cate">
 
                                 @foreach($permissions as $permission)
-
-                                    <tr>
+                                    <tr cate-id='{{ $permission->id }}' fid='{{ $permission->pid ?: 0 }}'>
                                         <td>{{ $permission->id }}</td>
                                         <td>{{ $permission->sort }}</td>
-                                        <td>{{ $permission->name }} / {{ $permission->route ?: '( no route )' }}</td>
+                                        <td>
+                                            {!! str_repeat('&nbsp;', ($permission->level -1 ) * 6) !!}
+                                            <i class="layui-icon layui-icon-triangle-d x-show"
+                                               data-expand='true'>
+                                            </i>
+                                            {{ $permission->name }} / {{ $permission->route ?: '( no route )' }}
+                                        </td>
                                         <td>{{ $permission->parentName }} ( {{ $permission->pid }} )</td>
                                         <td style="text-align: center">
                                             <i class="layui-icon {{ $permission->icon }}"></i>
@@ -63,6 +74,12 @@
                                         <td>{{ time_format($permission->created_at) }}
                                             / {{ time_format($permission->updated_at) }}</td>
                                         <td class="td-manage">
+                                            <a title="添加"
+                                               data-url="{{ split_url(route('admin.permissions.create', ['pid' => $permission->id]))[1] }}"
+                                               onclick="addPermission(this)"
+                                               href="javascript:;">
+                                                <i class="layui-icon layui-icon-add-circle"></i>
+                                            </a>
                                             <a title="编辑"
                                                data-url="{{ split_url(route('admin.permissions.edit', ['id' => $permission->id]))[1] }}"
                                                onclick="editPermission(this)"
@@ -91,6 +108,11 @@
 @section('bottom-js')
     <script>
 
+        function addPermission(obj) {
+            var obj = $(obj);
+            xadmin.open('添加', obj.data('url'), 530, 410);
+        }
+
         function editPermission(obj) {
             var obj = $(obj);
             xadmin.open('编辑', obj.data('url'), 530, 410);
@@ -113,6 +135,63 @@
                     },
                 });
             });
+        }
+
+        var _currentId;
+        var childCateIds = [];
+        layui.use('jquery', function () {
+            var $ = layui.$;
+
+            $("body").on('click', 'button[data-action]', function (e) {
+                var action = $(this).data('action');
+                if (action == 'collapse') { // 收起
+                    $("tbody.x-cate tr[fid!='0']").hide();
+                    collapse($("tbody.x-cate tr").find('.x-show'));
+                } else if (action == 'expand') { // 展开
+                    $("tbody.x-cate tr[fid!='0']").show();
+                    expand($("tbody.x-cate tr").find('.x-show'));
+                }
+            });
+
+            // 点击图标展开
+            $("body").on('click', '.x-show', function () {
+                if ($(this).attr('data-expand') == 'true') {
+                    collapse($(this));
+                    var cateId = $(this).parents('tr').attr('cate-id');
+                    childCateIds = [];
+                    setChildCateId(cateId);
+                    var current;
+                    for (var i in childCateIds) {
+                        current = $("tbody tr[cate-id='" + childCateIds[i] + "']");
+                        current.hide();
+                        collapse(current.find('.x-show'));
+                    }
+                } else {
+                    expand($(this));
+                    var cateId = $(this).parents('tr').attr('cate-id');
+                    $("tbody tr[fid='" + cateId + "']").show();
+                }
+            });
+        });
+
+        function setChildCateId(cateId) {
+            $("tbody tr[fid='" + cateId + "']").each(function (index, el) {
+                _currentId = $(el).attr('cate-id');
+                childCateIds.push(_currentId);
+                setChildCateId(_currentId);
+            });
+        }
+
+        function expand(o) {
+            o.removeClass('layui-icon-triangle-r');
+            o.addClass('layui-icon-triangle-d');
+            o.attr('data-expand', 'true');
+        }
+
+        function collapse(o) {
+            o.removeClass('layui-icon-triangle-d');
+            o.addClass('layui-icon-triangle-r');
+            o.attr('data-expand', 'false');
         }
 
     </script>

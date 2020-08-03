@@ -66,7 +66,7 @@
                                     @if ($p->id === old('pid'))
                                     selected="selected"
                                     @endif
-                                >{!! str_repeat("&nbsp;", ($p->level * 6)) . "┝&nbsp;" . $p->name !!}</option>
+                                >{{ str_repeat("——", ($p->level)) . "" . $p->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -211,6 +211,17 @@
                     $('label[for="route"]').html('<span class="x-red">*</span>权限路由');
                 }
                 form.render(null, 'permission-create-form');
+                var o = $(".layui-form-select .layui-select-title input");
+                var val = o.val().replace(/——/g, '');
+                o.val(val);
+            });
+
+            $(function () {
+                var permissionSelectVal = "{{ $pid }}";
+                $('select[name="pid"]')
+                    .siblings("div.layui-form-select")
+                    .find('dl dd[lay-value="' + permissionSelectVal + '"]')
+                    .click();
             });
 
         });
