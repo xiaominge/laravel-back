@@ -150,8 +150,9 @@
                 elem: '#iconPicker',
                 page: false,
                 size: 'small',
-                minHeight: '160',
-                cellWidth: '38px',
+                bodyHeight: '160px',
+                bodyWidth: '206px',
+                cellWidth: '36px',
             });
 
             /**
