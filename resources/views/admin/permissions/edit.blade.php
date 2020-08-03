@@ -99,7 +99,8 @@
                         <input type="text" id="iconPicker" name="icon"
                                lay-verify="" lay-verType="tips"
                                lay-filter="iconPicker"
-                               class="layui-hide">
+                               class="layui-input layui-disabled"
+                               readonly>
                     </div>
                 </div>
 
@@ -148,8 +149,9 @@
             iconPicker.render({
                 elem: '#iconPicker',
                 page: false,
-                minHeight: '160',
                 size: 'small',
+                minHeight: '160',
+                cellWidth: '38px',
             });
 
             /**

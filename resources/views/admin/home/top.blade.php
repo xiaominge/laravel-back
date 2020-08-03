@@ -15,7 +15,9 @@
                     <a onclick="xadmin.open('修改密码', '{{ route('admin.home.password.change') }}', 400, 315)">修改密码</a>
                 </dd>
                 <dd>
-                    <a href="{{ route('admin.logout') }}">退出</a>
+                    <a style="color: #df5000" href="{{ route('admin.logout') }}">
+                        <i class="layui-icon layui-icon-close"></i>退出
+                    </a>
                 </dd>
             </dl>
         </li>
