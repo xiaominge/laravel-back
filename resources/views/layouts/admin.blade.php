@@ -11,6 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset("X-admin/css/font.css") }}">
     <link rel="stylesheet" href="{{ asset("X-admin/css/xadmin.css") }}">
+    <link rel="stylesheet" href="{{ asset("css/layui/icon-extend/iconfont.css") }}">
     <script src="{{ asset("X-admin/lib/layui/layui.js") }}" charset="utf-8"></script>
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -23,6 +24,14 @@
 
         .x-admin-sm .layui-form-select dl {
             top: 32px;
+        }
+
+        .x-admin-sm .iconfont-icon {
+            font-size: 14px;
+        }
+
+        .layui-btn .iconfont-icon {
+            margin-right: 3px;
         }
     </style>
     @yield('css')

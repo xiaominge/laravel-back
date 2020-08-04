@@ -16,7 +16,7 @@
                 </dd>
                 <dd>
                     <a style="color: #df5000" href="{{ route('admin.logout') }}">
-                        <i class="layui-icon layui-icon-close"></i>退出
+                        <i class="iconfont-icon iconfont-icon-Logout"></i>退出
                     </a>
                 </dd>
             </dl>

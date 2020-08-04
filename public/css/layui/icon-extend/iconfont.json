@@ -1,0 +1,30 @@
+{
+  "id": "1986978",
+  "name": "icon",
+  "font_family": "iconfont-icon",
+  "css_prefix_text": "iconfont-icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1397983",
+      "name": "Logout",
+      "font_class": "Logout",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "586997",
+      "name": "node-collapse",
+      "font_class": "nodecollapse",
+      "unicode": "e794",
+      "unicode_decimal": 59284
+    },
+    {
+      "icon_id": "586998",
+      "name": "node-expand",
+      "font_class": "nodeexpand",
+      "unicode": "e795",
+      "unicode_decimal": 59285
+    }
+  ]
+}

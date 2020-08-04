@@ -35,10 +35,10 @@
                             <i class="layui-icon layui-icon-add-circle"></i>添加
                         </button>
                         <button class="layui-btn" data-action="expand">
-                            <i class="layui-icon "></i>展开
+                            <i class="iconfont-icon iconfont-icon-nodeexpand"></i>展开
                         </button>
                         <button class="layui-btn" data-action="collapse">
-                            <i class="layui-icon "></i>收起
+                            <i class="iconfont-icon iconfont-icon-nodecollapse"></i>收起
                         </button>
                     </div>
                     <div class="layui-card-body">
