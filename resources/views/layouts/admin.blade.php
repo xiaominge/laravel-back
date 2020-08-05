@@ -11,7 +11,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset("X-admin/css/font.css") }}">
     <link rel="stylesheet" href="{{ asset("X-admin/css/xadmin.css") }}">
-    <link rel="stylesheet" href="{{ asset("css/layui/icon-extend/iconfont.css") }}">
     <script src="{{ asset("X-admin/lib/layui/layui.js") }}" charset="utf-8"></script>
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -50,6 +49,7 @@
     }).extend({
         xmSelect: 'xm-select/xm-select', // 多选下拉框
         iconPicker: 'iconPicker/iconPicker', // 图标选择工具
+        iconExtend: 'icon-extend/icon-extend', // 图标扩展
     });
 
     layui.use('jquery', function () {

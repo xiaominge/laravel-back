@@ -54,4 +54,9 @@
     <!-- 中部结束 -->
 @endsection
 @section('bottom-js')
+    <script>
+        layui.use('iconExtend', function (iconExtend) {
+            iconExtend.loader('iconfont');
+        });
+    </script>
 @endsection

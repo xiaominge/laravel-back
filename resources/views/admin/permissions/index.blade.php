@@ -139,8 +139,10 @@
 
         var _currentId;
         var childCateIds = [];
-        layui.use('jquery', function () {
+        layui.use(['iconExtend', 'jquery'], function () {
             var $ = layui.$;
+            var iconExtend = layui.iconExtend;
+            iconExtend.loader('iconfont');
 
             $("body").on('click', 'button[data-action]', function (e) {
                 var action = $(this).data('action');
