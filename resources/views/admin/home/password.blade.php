@@ -1,10 +1,6 @@
 @extends('layouts.admin')
 @section('title', config('app.name') . " - 管理平台 - 修改密码")
 
-@section('top-js')
-    <script type="text/javascript" src="{{ asset('X-admin/js/xadmin.js') }}"></script>
-@endsection
-
 @section('content')
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">

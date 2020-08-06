@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Redis;
 use App\Repositories\RepositoryHandler;
 use App\Services\ServiceHandle;
 use App\Constant\DateFormat;
+use App\Foundation\Util\Html;
 
 if (!function_exists('repository')) {
     function repository()
@@ -131,4 +132,14 @@ if (!function_exists('time_format')) {
         if (empty($time)) return '';
         return date($format, $time);
     }
+}
+
+function style()
+{
+    return Html::style(...func_get_args());
+}
+
+function script()
+{
+    return Html::script(...func_get_args());
 }

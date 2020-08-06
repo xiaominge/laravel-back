@@ -17,10 +17,6 @@
     </style>
 @endsection
 
-@section('top-js')
-    <script type="text/javascript" src="{{ asset('X-admin/js/xadmin.js') }}"></script>
-@endsection
-
 @section('content')
 
     @include('admin.common.crumb', ['title' => '权限列表'])

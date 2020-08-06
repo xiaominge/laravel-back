@@ -1,8 +1,12 @@
 @extends('layouts.admin')
 @section('title', config('app.name') . " - 管理平台登录")
 @section('css')
-    <link rel="stylesheet" href="{{ asset("X-admin/css/login.css") }}">
+    {!! style('login') !!}
 @endsection
+
+@php
+    $loadXadminJs = false;
+@endphp
 
 @section('top-js')
     <script>

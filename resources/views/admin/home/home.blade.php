@@ -2,7 +2,6 @@
 @section('title', config('app.name') . " - 管理平台")
 
 @section('top-js')
-    <script type="text/javascript" src="{{ asset('X-admin/js/xadmin.js') }}"></script>
     <script>
         // 是否开启刷新记忆tab功能
         var is_remember = false;

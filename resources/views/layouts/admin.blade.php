@@ -9,9 +9,13 @@
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="{{ asset("X-admin/css/font.css") }}">
-    <link rel="stylesheet" href="{{ asset("X-admin/css/xadmin.css") }}">
-    <script src="{{ asset("X-admin/lib/layui/layui.js") }}" charset="utf-8"></script>
+    @php
+        echo style('xadmin-font', 'layui', 'xadmin');
+        echo script('layui');
+        if (!isset($loadXadminJs) || $loadXadminJs == true) {
+            echo script('xadmin');
+        }
+    @endphp
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -62,7 +66,7 @@
         });
     });
 </script>
-<script src="{{ asset('js/own.js') }}"></script>
+{!! script('own') !!}
 @section('bottom-js')
 @show
 </html>
