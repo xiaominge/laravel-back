@@ -54,17 +54,15 @@
                                     <th style="width:250px">创建时间 / 修改时间</th> <!-- width:250px -->
                                     <th style="width:60px">操作</th>
                                 </thead>
-                                <tbody class="x-cate">
+                                <tbody class="tree-list">
 
                                 @foreach($permissions as $permission)
-                                    <tr cate-id='{{ $permission->id }}' fid='{{ $permission->pid ?: 0 }}'>
+                                    <tr item-id='{{ $permission->id }}' pid='{{ $permission->pid ?: 0 }}'>
                                         <td>{{ $permission->id }}</td>
                                         <td>{{ $permission->sort }}</td>
                                         <td>
-                                            {!! str_repeat('&nbsp;', ($permission->level -1 ) * 6) !!}
-                                            <i class="layui-icon layui-icon-triangle-d x-show"
-                                               data-expand='true'>
-                                            </i>
+                                            {!! str_repeat('&nbsp;', ($permission->level -1 ) * 8) !!}
+                                            <i data-action></i>
                                             {{ $permission->name }} / {{ $permission->route ?: '( no route )' }}
                                         </td>
                                         <td>{{ $permission->parentName }} ( {{ $permission->pid }} )</td>
@@ -137,64 +135,15 @@
             });
         }
 
-        var _currentId;
-        var childCateIds = [];
-        layui.use(['iconExtend', 'jquery'], function () {
-            var $ = layui.$;
+        layui.use(['jquery', 'iconExtend', 'treeList'], function () {
+            var $ = layui.jquery;
             var iconExtend = layui.iconExtend;
+            var treeList = layui.treeList;
+
             iconExtend.loader('iconfont');
-
-            $("body").on('click', 'button[data-action]', function (e) {
-                var action = $(this).data('action');
-                if (action == 'collapse') { // 收起
-                    $("tbody.x-cate tr[fid!='0']").hide();
-                    collapse($("tbody.x-cate tr").find('.x-show'));
-                } else if (action == 'expand') { // 展开
-                    $("tbody.x-cate tr[fid!='0']").show();
-                    expand($("tbody.x-cate tr").find('.x-show'));
-                }
-            });
-
-            // 点击图标展开
-            $("body").on('click', '.x-show', function () {
-                if ($(this).attr('data-expand') == 'true') {
-                    collapse($(this));
-                    var cateId = $(this).parents('tr').attr('cate-id');
-                    childCateIds = [];
-                    setChildCateId(cateId);
-                    var current;
-                    for (var i in childCateIds) {
-                        current = $("tbody tr[cate-id='" + childCateIds[i] + "']");
-                        current.hide();
-                        collapse(current.find('.x-show'));
-                    }
-                } else {
-                    expand($(this));
-                    var cateId = $(this).parents('tr').attr('cate-id');
-                    $("tbody tr[fid='" + cateId + "']").show();
-                }
+            treeList.render({
+                parentId: 'pid',
             });
         });
-
-        function setChildCateId(cateId) {
-            $("tbody tr[fid='" + cateId + "']").each(function (index, el) {
-                _currentId = $(el).attr('cate-id');
-                childCateIds.push(_currentId);
-                setChildCateId(_currentId);
-            });
-        }
-
-        function expand(o) {
-            o.removeClass('layui-icon-triangle-r');
-            o.addClass('layui-icon-triangle-d');
-            o.attr('data-expand', 'true');
-        }
-
-        function collapse(o) {
-            o.removeClass('layui-icon-triangle-d');
-            o.addClass('layui-icon-triangle-r');
-            o.attr('data-expand', 'false');
-        }
-
     </script>
 @endsection

@@ -50,6 +50,7 @@
         xmSelect: 'xm-select/xm-select', // 多选下拉框
         iconPicker: 'iconPicker/iconPicker', // 图标选择工具
         iconExtend: 'icon-extend/icon-extend', // 图标扩展
+        treeList: 'tree-list/tree-list', // 树形列表
     });
 
     layui.use('jquery', function () {

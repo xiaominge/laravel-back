@@ -129,7 +129,7 @@ LOCK TABLES `permissions` WRITE;
 
 INSERT INTO `permissions` (`id`, `name`, `description`, `pid`, `icon`, `route`, `sort`, `created_at`, `updated_at`, `deleted_at`)
 VALUES
-  (1,'权限管理','菜单 - 权限管理',0,'vercode','',0,1553752888,1553752888,0),
+  (1,'权限管理','菜单 - 权限管理',0,'layui-icon-auz','',0,1553752888,1553752888,0),
   (2,'角色列表','菜单 -- 角色列表',1,'','admin.roles.index',0,1553752888,1553752888,0),
   (3,'权限列表','菜单 - 权限列表',1,'','admin.permissions.index',0,1553752888,1553752888,0),
   (4,'管理员列表','管理员列表',1,'','admin.admins.index',0,1553752888,1553752888,0),
