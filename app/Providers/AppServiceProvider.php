@@ -10,6 +10,12 @@ use App\Foundation\Response\UserBusinessHandler;
 
 class AppServiceProvider extends ServiceProvider
 {
+
+    public $singletons = [
+        'businessHandler' => BusinessHandler::class,
+        'userBusinessHandler' => UserBusinessHandler::class,
+    ];
+
     /**
      * Register any application services.
      *
@@ -19,12 +25,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('context', function () {
             return ContextHandler::getInstance();
-        });
-        $this->app->singleton('businessHandler', function () {
-            return new BusinessHandler();
-        });
-        $this->app->singleton('userBusinessHandler', function () {
-            return new UserBusinessHandler();
         });
     }
 
